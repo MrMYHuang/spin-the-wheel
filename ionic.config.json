@@ -1,0 +1,7 @@
+{
+  "name": "spin-the-wheel",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

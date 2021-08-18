@@ -1,0 +1,22 @@
+{
+  "short_name": "幸運輪盤",
+  "name": "幸運輪盤",
+  "icons": [
+    {
+      "src": "assets/icon/icon.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    },
+    {
+      "src": "assets/icon/icon.png",
+      "type": "image/png",
+      "sizes": "1024x1024",
+      "purpose": "maskable"
+    }
+  ],
+  "scope": "/spin-the-wheel/",
+  "start_url": "/spin-the-wheel/",
+  "display": "standalone",
+  "theme_color": "black",
+  "background_color": "black"
+}
