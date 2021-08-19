@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DBC7139C269D606400FCE5B0"
-               BuildableName = "SpinTheWheel.app"
+               BuildableName = "&#x5e78;&#x904b;&#x8f2a;&#x76e4;.app"
                BlueprintName = "SpinTheWheel (iOS)"
                ReferencedContainer = "container:SpinTheWheel.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DBC7139C269D606400FCE5B0"
-            BuildableName = "SpinTheWheel.app"
+            BuildableName = "&#x5e78;&#x904b;&#x8f2a;&#x76e4;.app"
             BlueprintName = "SpinTheWheel (iOS)"
             ReferencedContainer = "container:SpinTheWheel.xcodeproj">
          </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DBC7139C269D606400FCE5B0"
-            BuildableName = "SpinTheWheel.app"
+            BuildableName = "&#x5e78;&#x904b;&#x8f2a;&#x76e4;.app"
             BlueprintName = "SpinTheWheel (iOS)"
             ReferencedContainer = "container:SpinTheWheel.xcodeproj">
          </BuildableReference>
