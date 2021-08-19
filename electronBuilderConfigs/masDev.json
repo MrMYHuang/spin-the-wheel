@@ -18,6 +18,6 @@
     "hardenedRuntime": false,
     "entitlements": "buildElectron/entitlements.mas.plist",
     "entitlementsInherit": "buildElectron/entitlements.mas.inherit.plist",
-    "provisioningProfile": "spin-the-wheeldev.provisionprofile"
+    "provisioningProfile": "stwDev.provisionprofile"
   }
 }
