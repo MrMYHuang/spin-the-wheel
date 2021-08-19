@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonList, IonReorderGroup, IonReorder, IonItem, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonFab, IonFabButton, IonAlert, IonModal, IonButton, IonHeader, IonTitle, IonToolbar, IonLabel } from '@ionic/react';
+import { IonContent, IonList, IonReorderGroup, IonReorder, IonItem, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonFab, IonFabButton, IonAlert, IonModal, IonButton, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -69,18 +69,18 @@ class _DecisionsModal extends React.Component<PageProps, State> {
     decisions.forEach((d, i) => {
       rows.push(
         <IonItemSliding key={`decisionItemSliding_` + i}>
-          <IonItem key={`decisionItem_` + i} button={true}>
-            <IonLabel key={`decisionSubItem_` + i} className='uiFont'
-            onClick={async e => {
-              await this.props.dispatch({
-                type: "SET_KEY_VAL",
-                key: 'selectedDecision',
-                val: i,
-              });
-              this.props.finish();
-            }}>
-            {d.title}
-            </IonLabel>
+          <IonItem key={`decisionItem_` + i}>
+            <IonButton fill='clear' key={`decisionSubItem_` + i} size='large' className='uiFont' style={{flex: '1 1 auto'}}
+              onClick={async e => {
+                await this.props.dispatch({
+                  type: "SET_KEY_VAL",
+                  key: 'selectedDecision',
+                  val: i,
+                });
+                this.props.finish();
+              }}>
+              {d.title}
+            </IonButton>
 
             <IonButton slot='end' size='large' onClick={e => {
               this.setState({ showSelectionItemsModal: true, selectedDecision: i });

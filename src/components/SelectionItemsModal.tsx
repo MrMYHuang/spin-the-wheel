@@ -74,6 +74,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
             <IonInput
               value={d.title}
+              placeholder='新項目'
               clearInput
               className='ionInput'
               onIonChange={e => {
@@ -122,6 +123,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
           <IonInput
             value={this.state.newDecision.title}
+            placeholder='輪盤標題'
             clearInput
             className='ionInput'
             onIonChange={e => {
@@ -141,7 +143,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
             <IonFabButton
               onClick={e => {
                 let newDecision = this.state.newDecision;
-                newDecision.selections.push(new SelectionItem({ title: '新選項' }));
+                newDecision.selections.push(new SelectionItem({ title: '' }));
                 this.setState({ newDecision });
               }}
             >

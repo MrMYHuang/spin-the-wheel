@@ -58,7 +58,7 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
             <IonItem>
               <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
               <IonIcon icon={bug} slot='start' />
-              <IonLabel className='ion-text-wrap uiFont'><a href="https://github.com/MrMYHuang/spin-the-wheel#report" target="_new">啟用 app 異常記錄</a></IonLabel>
+              <IonLabel className='ion-text-wrap uiFont'>啟用 app 異常記錄</IonLabel>
               <IonToggle slot='end' checked={this.props.hasAppLog} onIonChange={e => {
                 const isChecked = e.detail.checked;
 
