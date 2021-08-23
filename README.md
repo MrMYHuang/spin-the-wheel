@@ -24,10 +24,10 @@
 程式碼為開放 (MIT License)，可自由下載修改、重新發佈。
 
 ## <a id='install'>安裝</a>
+此app目前有2種取得、安裝方式：
 
-此 app 目前有1種取得、安裝方式：
-
-  1. Chrome、Safari 網頁瀏覽器。
+  1. Chrome, Safari 網頁瀏覽器。
+  2. App 商店
 
 ### <a id='web-app'>從瀏覽器開啟/安裝</a>
 請用Chrome (Windows, macOS, Linux, Android作業系統使用者)、Safari (iOS (iPhone, iPad)使用者)瀏覽器開啟以下網址：
@@ -42,14 +42,14 @@ https://myhpwa.github.io/spin-the-wheel
 
 此 progressive web app (PWA)，可不安裝直接在網頁瀏覽器執行，或安裝至手機、平板、筆電、桌機。建議安裝，以避免瀏覽器定期清除快取，導致 app 設定不見！
 
-#### Windows, macOS, Linux, Android - 使用Chrome安裝
+#### Windows, macOS, Linux, Android - 使用 Chrome 安裝
 使用Chrome瀏覧器（建議最新版）開啟上述PWA網址後，網址列會出現一個加號，如圖所示：
 
 <img src='https://github.com/MrMYHuang/spin-the-wheel/raw/main/docs/images/ChromeInstall.png' width='50%' />
 
 點擊它，以完成安裝。安裝完後會在桌面出現"spin-the-wheel" app 圖示。
 
-#### iOS - 使用Safari安裝
+#### iOS - 使用 Safari 安裝
 1. 使用Safari開啟web app網址，再點擊下方中間的"分享"圖示：
 
 <img src='https://github.com/MrMYHuang/spin-the-wheel/raw/main/docs/images/Safari/OpenAppUrl.png' width='50%' />
@@ -62,10 +62,38 @@ https://myhpwa.github.io/spin-the-wheel
 
 <img src='https://github.com/MrMYHuang/spin-the-wheel/raw/main/docs/images/Safari/AppIcon.png' width='50%' />
 
+### <a id='storeApp'>從 App 商店安裝</a>
+#### Android - 使用 Google Play Store
+<a href='https://play.google.com/store/apps/details?id=io.github.myhpwa.SpinTheWheel' target='_blank'>
+<img width="auto" height='60px' alt='Google Play立即下載' src='https://github.com/MrMYHuang/twri/raw/main/docs/images/zh-tw_badge_web_generic.png'/>
+</a>
+
+#### iOS 14.0+ (iPhone), iPadOS 14.0+ (iPad) - 使用 Apple App Store
+<a href='https://apps.apple.com/app/id1581902216' target='_blank'>
+<img width="auto" height='60px' src='https://github.com/MrMYHuang/twri/raw/main/docs/images/Download_on_the_App_Store_Badge_CNTC_RGB_blk_100217.svg'/>
+</a>
+
+#### macOS 10.10+ - 使用 Apple App Store
+<a href='https://apps.apple.com/app/id1581902216' target='_blank'>
+<img width="auto" height='60px' src='https://github.com/MrMYHuang/twri/raw/main/docs/images/Download_on_the_Mac_App_Store_Badge_CNTC_RGB_blk_100217.svg'/>
+</a>
+
+#### Windows 10 - 使用 Microsoft Store
+<a href='https://www.microsoft.com/store/apps/9NLV45GXQ9QN' target='_blank'>
+<img width="auto" height='60px' src='https://developer.microsoft.com/store/badges/images/Chinese-Traditional_get-it-from-MS.png' alt='Chinese Traditional badge'/>
+</a>
+
+#### Linux - 使用 Snap Store
+<a href='https://snapcraft.io/spin-the-wheel' target='_blank'>
+<img width="auto" height='60px' src='https://github.com/MrMYHuang/twri/raw/main/docs/images/[TW]-snap-store-black@2x.png' />
+</a>
+
 ## <a id='knownIssues'>已知問題</a>
 1. iOS Safari 13.4以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* 1.0.1:
+  * 調整 UI。
 * 1.0.0：
   * 第一版。
 
