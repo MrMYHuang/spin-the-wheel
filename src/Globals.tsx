@@ -1,6 +1,7 @@
 import { isPlatform, IonLabel } from '@ionic/react';
 
 const pwaUrl = process.env.PUBLIC_URL || '';
+const bugReportApiUrl = 'https://vh6ud1o56g.execute-api.ap-northeast-1.amazonaws.com/bugReportMailer';
 
 let log = '';
 
@@ -48,6 +49,7 @@ function copyToClipboard(text: string) {
 
 const Globals = {
   pwaUrl,
+  bugReportApiUrl,
   storeFile: 'SpinTheWheelSettings.json',
   getLog,
   enableAppLog,

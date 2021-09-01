@@ -2,7 +2,7 @@
     "name": "spin-the-wheel",
     "homepage": "/spin-the-wheel",
     "productName": "幸運輪盤",
-    "pwaVersion": "1.0.1",
+    "pwaVersion": "1.1.0",
     "version": "1.0.0",
     "license": "MIT",
     "keywords": [
@@ -56,6 +56,7 @@
         "@types/react-router": "^5.1.16",
         "@types/react-router-dom": "^5.1.8",
         "@types/uuid": "^8.3.1",
+        "axios": "^0.21.1",
         "customize-cra": "^1.0.0",
         "d3": "^7.0.0",
         "electron": "^11.4.10",
