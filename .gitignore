@@ -270,3 +270,4 @@ dist
 android
 win
 *.provisionprofile
+.DS_Store
