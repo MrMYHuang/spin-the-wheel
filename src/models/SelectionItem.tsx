@@ -1,7 +1,7 @@
 export class SelectionItem {
     title: string = '';
 
-    constructor(obj: SelectionItem) {
+    constructor(obj: any) {
         this.title = obj.title;
     }
 }

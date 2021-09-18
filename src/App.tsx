@@ -16,6 +16,7 @@ import { connect, Provider } from 'react-redux';
 import queryString from 'query-string';
 import getSavedStore from './redux/store';
 import { settings, pieChart } from 'ionicons/icons';
+import { v4 as uuidv4 } from 'uuid';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,6 +42,8 @@ import ShareTextModal from './components/ShareTextModal';
 import { Settings } from './models/Settings';
 import { TmpSettings } from './models/TmpSettings';
 import WheelPage from './pages/WheelPage';
+import { Decision } from './models/Decision';
+import { SelectionItem } from './models/SelectionItem';
 
 const electronBackendApi: any = (window as any).electronBackendApi;
 
@@ -151,6 +154,25 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
     }
     Globals.updateCssVars(this.props.settings);
 
+    if (queryParams.title) {
+      const title = queryParams.title;
+      const f = async () => {
+        await this.props.dispatch({
+          type: "ADD_DECISION",
+          decision: new Decision(uuidv4(), title, (queryParams.sel as string[]).map(v => new SelectionItem({ title: v }))),
+        });
+
+        this.props.dispatch({
+          type: "SET_KEY_VAL",
+          key: 'selectedDecision',
+          val: this.props.settings.decisions.length - 1,
+        });
+
+        this.setState({showToast: true, toastMessage: `"${title}"輪盤已由網址新增！`});
+      };
+      f();
+    }
+
     this.state = {
       showUpdateAlert: false,
       showRestoreAppSettingsToast: (queryParams.settings != null && this.originalAppSettingsStr != null) || false,
@@ -206,7 +228,7 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
       } else {
         console.error('navigator.wakeLock is undefined.');
       }
-    } catch (err) {
+    } catch (err: any) {
       // the wake lock request fails - usually system related, such low as battery
       console.log(`${err.name}, ${err.message}`);
       console.log(new Error().stack);

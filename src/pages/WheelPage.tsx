@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as d3 from 'd3';
@@ -8,6 +8,7 @@ import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 import { SelectionItem } from '../models/SelectionItem';
 import DecisionsModal from '../components/DecisionsModal';
+import { shareSocial } from 'ionicons/icons';
 
 const padding = { top: 20, right: 20, bottom: 20, left: 20 };
 const spins = 3;
@@ -170,6 +171,20 @@ class _WheelPage extends React.Component<PageProps, State> {
         <IonHeader>
           <IonToolbar>
             <IonTitle className='uiFont'>幸運輪盤</IonTitle>
+
+            <IonButton fill="clear" slot='end' onClick={e => {
+              const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `sel=${encodeURIComponent(v.title)}`).join('&')}`;
+              this.props.dispatch({
+                type: "TMP_SET_KEY_VAL",
+                key: 'shareTextModal',
+                val: {
+                  show: true,
+                  text: `${window.location.origin}${window.location.pathname}?${thisDecision}`,
+                },
+              });
+            }}>
+              <IonIcon icon={shareSocial} slot='icon-only' />
+            </IonButton>
           </IonToolbar>
         </IonHeader>
         <IonContent>
@@ -203,7 +218,7 @@ class _WheelPage extends React.Component<PageProps, State> {
             <div className='buttonsRow'>
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.setState({ showDecisonsModal: true });
-              }}>選擇輪盤</IonButton>
+              }}>選擇</IonButton>
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.spin();
               }}>轉動</IonButton>
