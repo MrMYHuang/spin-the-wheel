@@ -156,10 +156,11 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
 
     if (queryParams.title) {
       const title = queryParams.title;
+      const selections = (queryParams.s || queryParams.sel) as string[];
       const f = async () => {
         await this.props.dispatch({
           type: "ADD_DECISION",
-          decision: new Decision(uuidv4(), title, (queryParams.sel as string[]).map(v => new SelectionItem({ title: v }))),
+          decision: new Decision(uuidv4(), title, selections.map(v => new SelectionItem({ title: v }))),
         });
 
         this.props.dispatch({

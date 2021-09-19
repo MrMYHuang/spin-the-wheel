@@ -173,7 +173,7 @@ class _WheelPage extends React.Component<PageProps, State> {
             <IonTitle className='uiFont'>幸運輪盤</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
-              const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `sel=${encodeURIComponent(v.title)}`).join('&')}`;
+              const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `s=${encodeURIComponent(v.title)}`).join('&')}`;
               this.props.dispatch({
                 type: "TMP_SET_KEY_VAL",
                 key: 'shareTextModal',
