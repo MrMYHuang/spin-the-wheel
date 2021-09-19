@@ -16,6 +16,11 @@
   ],
   "scope": "/spin-the-wheel/",
   "start_url": "/spin-the-wheel/",
+  "url_handlers": [
+    {
+      "origin": "https://myhpwa.github.io/spin-the-wheel/"
+    }
+  ],
   "display": "standalone",
   "theme_color": "black",
   "background_color": "black"

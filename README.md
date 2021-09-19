@@ -92,6 +92,8 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* PWA 1.2.2:
+  * 新增 url_handlers。
 * PWA 1.2.1:
   * 縮短分享網址長度。
 * PWA 1.2.0:
