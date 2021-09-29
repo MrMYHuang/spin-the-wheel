@@ -18,7 +18,7 @@
   "start_url": "/spin-the-wheel/",
   "url_handlers": [
     {
-      "origin": "https://myhpwa.github.io/spin-the-wheel/"
+      "origin": "https://myhpwa.github.io"
     }
   ],
   "display": "standalone",
