@@ -92,6 +92,8 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* iOS 1.0.1:
+  * [修正] 匯出設定預設檔名。
 * PWA 1.3.0:
   * 錯誤回報功能作 E-mail 檢查。
   * 錯誤回報功能支援填寫問題發生步驟。
