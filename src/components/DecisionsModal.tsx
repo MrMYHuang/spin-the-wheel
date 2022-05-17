@@ -21,7 +21,7 @@ interface Props {
 
 interface State {
   showAddDecisionAlert: boolean;
-  selectedDecision: number;
+  selectedDecision: Decision | null;
   showSelectionItemsModal: boolean;
   reorder: boolean;
   showToast: boolean;
@@ -39,7 +39,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
     super(props);
     this.state = {
       showAddDecisionAlert: false,
-      selectedDecision: 0,
+      selectedDecision: null,
       showSelectionItemsModal: false,
       reorder: false,
       showToast: false,
@@ -71,8 +71,8 @@ class _DecisionsModal extends React.Component<PageProps, State> {
         <IonItemSliding key={`decisionItemSliding_` + i}>
           <IonItem key={`decisionItem_` + i}>
             <IonButton fill='clear' key={`decisionSubItem_` + i} size='large' className='uiFont' style={{flex: '1 1 auto'}}
-              onClick={async e => {
-                await this.props.dispatch({
+              onClick={e => {
+                this.props.dispatch({
                   type: "SET_KEY_VAL",
                   key: 'selectedDecision',
                   val: i,
@@ -83,7 +83,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
             </IonButton>
 
             <IonButton slot='end' size='large' onClick={e => {
-              this.setState({ showSelectionItemsModal: true, selectedDecision: i });
+              this.setState({ showSelectionItemsModal: true, selectedDecision: d });
             }}>
               <IonIcon icon={build} slot='icon-only' />
             </IonButton>
@@ -181,8 +181,18 @@ class _DecisionsModal extends React.Component<PageProps, State> {
             {...{
               selectedDecision: this.state.selectedDecision,
               showModal: this.state.showSelectionItemsModal,
-              finish: () => {
+              finish: (newDecision: Decision) => {
                 this.setState({ showSelectionItemsModal: false });
+                if (newDecision == null) {
+                  return;
+                }
+                let decisions = this.props.settings.decisions;
+                const i = decisions.findIndex(d => d.uuid === newDecision.uuid);
+                decisions[i] = newDecision;
+                this.props.dispatch({
+                  type: "UPDATE_DECISIONS",
+                  decisions: decisions,
+                });
               },
               history: this.props.history,
               match: this.props.match,

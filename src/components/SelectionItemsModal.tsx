@@ -5,18 +5,14 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { add, swapVertical } from 'ionicons/icons';
 
-import { Settings } from '../models/Settings';
-import { TmpSettings } from '../models/TmpSettings';
 import { Decision } from '../models/Decision';
 import { SelectionItem } from '../models/SelectionItem';
 
 interface Props {
   showModal: boolean;
-  selectedDecision: number;
+  selectedDecision: Decision | null;
   finish: Function;
   dispatch: Function;
-  tmpSettings: TmpSettings;
-  settings: Settings;
 }
 
 interface State {
@@ -37,7 +33,8 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      newDecision: JSON.parse(JSON.stringify(this.decision)),
+      // Copy object by JSON calls.
+      newDecision: JSON.parse(JSON.stringify(this.props.selectedDecision)),
       showAddSelectionItemAlert: false,
       reorder: false,
       showToast: false,
@@ -46,9 +43,15 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
     this.bookmarkListRef = React.createRef<HTMLIonListElement>();
   }
 
-  get decision() {
-    const decisions = this.props.settings.decisions;
-    return decisions[this.props.selectedDecision]
+  static getDerivedStateFromProps(props: any, state: any) {
+    if (props.selectedDecision !== state.newDecision) {
+      return {
+        newDecision: props.selectedDecision,
+      };
+    }
+
+    // Return null to indicate no change to state.
+    return null;
   }
 
   delBookmarkHandler(i: number) {
@@ -98,15 +101,20 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
   }
 
   render() {
+    if (this.props.selectedDecision == null) {
+      return <></>;
+    }
+
     return (
       <IonModal
         cssClass='uiFont'
         swipeToClose={false}
         backdropDismiss={false}
         isOpen={this.props.showModal}
+        /*
         onWillPresent={() =>
           this.setState({newDecision: JSON.parse(JSON.stringify(this.decision))})
-        }
+        }*/
       //presentingElement={router || undefined}
       >
         <IonHeader>
@@ -153,14 +161,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
           <div className='buttonsRow'>
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
-              let decisions = this.props.settings.decisions;
-              const i = decisions.findIndex(d => d.uuid === this.state.newDecision.uuid);
-              decisions[i] = this.state.newDecision;
-              this.props.dispatch({
-                type: "UPDATE_DECISIONS",
-                decisions: decisions,
-              });
-              this.props.finish();
+              this.props.finish(this.state.newDecision);
             }}>儲存</IonButton>
 
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
@@ -185,7 +186,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
   return {
     decisions: state.items,
     settings: state.settings,
-    tmpSettings: state.tmpSettings,
   }
 };
 

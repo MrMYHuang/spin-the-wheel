@@ -58,8 +58,9 @@ class _ShareTextModal extends React.Component<PageProps, State> {
           for (let i = 0; i < this.state.isAppSettingsExport.length; i++) {
             isAppSettingsExport.push(false);
           }
-          this.setState({isAppSettingsExport: isAppSettingsExport});
-          this.updateQrCode();
+          this.setState({isAppSettingsExport: isAppSettingsExport}, () => {
+            this.updateQrCode();
+          });
         }}
         onDidDismiss={() => this.props.finish()}>
         <IonContent>
@@ -83,8 +84,9 @@ class _ShareTextModal extends React.Component<PageProps, State> {
                       <IonToggle slot='end' onIonChange={e => {
                         const isAppSettingsExport =  this.state.isAppSettingsExport;
                         isAppSettingsExport[i] = e.detail.checked;
-                        this.setState({isAppSettingsExport: isAppSettingsExport});
-                        this.updateQrCode();
+                        this.setState({isAppSettingsExport: isAppSettingsExport}, () => {
+                          this.updateQrCode();
+                        });
                       }} />
                     </IonItem>
                   )

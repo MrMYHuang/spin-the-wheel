@@ -1,12 +1,21 @@
 import Globals from '../../Globals';
 import { Settings } from '../../models/Settings';
 
+function updateUi(newSettings: Settings) {
+  while (document.body.classList.length > 0) {
+    document.body.classList.remove(document.body.classList.item(0)!);
+  }
+  document.body.classList.toggle(`theme${newSettings.theme}`, true);
+  Globals.updateCssVars(newSettings);
+}
+
 // Used to store settings. They will be saved to file.
 export default function reducer(state = new Settings(), action: any) {
   var newSettings = { ...state };
   switch (action.type) {
     case "LOAD_SETTINGS":
       newSettings = JSON.parse(localStorage.getItem(Globals.storeFile)!).settings;
+      updateUi(newSettings);
       break;
     case "SET_KEY_VAL":
       var key = action.key;
@@ -37,6 +46,10 @@ export default function reducer(state = new Settings(), action: any) {
         temp.splice(idxToDel, 1);
       }
       newSettings.decisions = [...temp];
+      const prevIdx = idxToDel - 1;
+      if (prevIdx < newSettings.decisions.length) {
+        newSettings.selectedDecision = prevIdx >= 0 ? prevIdx : 0;
+      }
       localStorage.setItem(Globals.storeFile, JSON.stringify({ settings: newSettings }));
       break;
     }
@@ -48,6 +61,7 @@ export default function reducer(state = new Settings(), action: any) {
     // @ts-ignore
     case "DEFAULT_SETTINGS":
       newSettings = new Settings();
+      updateUi(newSettings);
       break;
     // eslint-disable-next-line
     default:

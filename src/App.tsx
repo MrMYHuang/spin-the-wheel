@@ -110,6 +110,7 @@ class _App extends React.Component<PageProps> {
 class _AppOrig extends React.Component<AppOrigProps, State> {
   registrationNew: ServiceWorkerRegistration | null;
   originalAppSettingsStr: string | null | undefined;
+  queryParams: any;
 
   constructor(props: any) {
     super(props);
@@ -140,10 +141,10 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
     document.body.classList.toggle(`theme${this.props.settings.theme}`, true);
 
     // Modify UI settings from query string.
-    const queryParams = queryString.parse(this.props.location.search) as any;
-    if (queryParams.settings) {
+    this.queryParams = queryString.parse(this.props.location.search) as any;
+    if (this.queryParams.settings) {
       this.originalAppSettingsStr = localStorage.getItem(Globals.storeFile);
-      (queryParams.settings as string).split(',').forEach(setting => {
+      (this.queryParams.settings as string).split(',').forEach(setting => {
         const keyVal = setting.split('=');
         this.props.dispatch({
           type: "SET_KEY_VAL",
@@ -151,32 +152,12 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
           val: +keyVal[1],
         });
       });
-    }
-    Globals.updateCssVars(this.props.settings);
-
-    if (queryParams.title) {
-      const title = queryParams.title;
-      const selections = (queryParams.s || queryParams.sel) as string[];
-      const f = async () => {
-        await this.props.dispatch({
-          type: "ADD_DECISION",
-          decision: new Decision(uuidv4(), title, selections.map(v => new SelectionItem({ title: v }))),
-        });
-
-        this.props.dispatch({
-          type: "SET_KEY_VAL",
-          key: 'selectedDecision',
-          val: this.props.settings.decisions.length - 1,
-        });
-
-        this.setState({showToast: true, toastMessage: `"${title}"輪盤已由網址新增！`});
-      };
-      f();
-    }
+    }    
+    Globals.updateCssVars(store.getState().settings);
 
     this.state = {
       showUpdateAlert: false,
-      showRestoreAppSettingsToast: (queryParams.settings != null && this.originalAppSettingsStr != null) || false,
+      showRestoreAppSettingsToast: (this.queryParams.settings != null && this.originalAppSettingsStr != null) || false,
       showToast: false,
       toastMessage: '',
     };
@@ -211,11 +192,6 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
   restoreAppSettings() {
     localStorage.setItem(Globals.storeFile, this.originalAppSettingsStr!);
     this.props.dispatch({ type: 'LOAD_SETTINGS' });
-    while (document.body.classList.length > 0) {
-      document.body.classList.remove(document.body.classList.item(0)!);
-    }
-    document.body.classList.toggle(`theme${this.props.settings.theme}`, true);
-    Globals.updateCssVars(this.props.settings);
   }
 
   // Prevent device from sleeping.
@@ -266,6 +242,26 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
       return <Redirect to={route + query} />;
     } else if (window.location.pathname === `${Globals.pwaUrl}/` || window.location.pathname === `${Globals.pwaUrl}`) {
       return <Redirect to={`${Globals.pwaUrl}/wheel`} />;
+    }
+  }
+
+  componentDidMount() {
+    if (this.queryParams.title) {
+      const title = this.queryParams.title;
+      const selections = (this.queryParams.s || this.queryParams.sel) as string[];
+      const newDecisionIndex = this.props.settings.decisions.length;
+      this.props.dispatch({
+        type: "ADD_DECISION",
+        decision: new Decision(uuidv4(), title, selections.map(v => new SelectionItem({ title: v }))),
+      });
+
+      this.props.dispatch({
+        type: "SET_KEY_VAL",
+        key: 'selectedDecision',
+        val: newDecisionIndex,
+      });
+
+      this.setState({ showToast: true, toastMessage: `"${title}"輪盤已由網址新增！` })
     }
   }
 

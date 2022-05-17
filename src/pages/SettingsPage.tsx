@@ -116,7 +116,7 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                       }
 
                       try {
-                        const axiosInstance = axios.create({timeout: 10000});
+                        const axiosInstance = axios.create({ timeout: 10000 });
                         await axiosInstance.post(Globals.bugReportApiUrl, {
                           subject: `${PackageInfos.productName}異常記錄回報`,
                           text: `E-mail: ${value.name0}\n\n發生步驟: ${value.name1}\n\n${this.reportText}`,
@@ -196,10 +196,6 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                           handler: async (value) => {
                             await Globals.clearAppData();
                             this.props.dispatch({ type: 'DEFAULT_SETTINGS' });
-                            while (document.body.classList.length > 0) {
-                              document.body.classList.remove(document.body.classList.item(0)!);
-                            }
-                            document.body.classList.toggle(`theme${this.props.theme}`, true);
                             this.setState({ showClearAlert: false, showToast: true, toastMessage: "清除成功!" });
                           },
                         }
@@ -253,7 +249,9 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                       key: 'uiFontSize',
                       val: +e.detail.value,
                     });
-                    Globals.updateCssVars(this.props.settings);
+                    setImmediate(() => {
+                      Globals.updateCssVars(this.props.settings);
+                    });
                   }} />
                 </div>
               </div>
