@@ -15,7 +15,10 @@
 
 * 佈景主題切換
 * 字型調整
-  1. 考量視力不佳的使用者，提供最大 48 px 的字型設定。
+  1. 提供最大 128 px 的字型設定。
+
+* <a id='shareAppLink'>網址分享</a>
+  1. 用開啟任一輪盤，按右上角分享，可複製其網址分享給別人開啟。開啟後會新增該輪盤。
 
 * <a id='report'>App異常回報</a>
 
@@ -92,6 +95,8 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* PWA 1.3.3:
+  * [修正] 新電腦開啟"網址分享"，卻無新增該輪盤的問題。
 * PWA 1.3.2:
   * [修正] setState, dispatch 相關狀態更新 bugs。
 * iOS 1.0.1:

@@ -1,13 +1,18 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon } from '@ionic/react';
+import queryString from 'query-string';
 import { shareSocial } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 import DecisionsModal from '../components/DecisionsModal';
 import Wheel from '../components/Wheel';
+import { Decision } from '../models/Decision';
+import { SelectionItem } from '../models/SelectionItem';
+import Globals from '../Globals';
 
 interface Props {
   dispatch: Function;
@@ -48,7 +53,25 @@ class _WheelPage extends React.Component<PageProps, State> {
   }
 
   ionViewWillEnter() {
-    //console.log(`${this.props.match.url} will enter`);
+    const queryParams = queryString.parse(this.props.location.search) as any;
+    if (queryParams.title) {
+      const title = queryParams.title;
+      const selections = (queryParams.s || queryParams.sel) as string[];
+      const newDecisionIndex = this.props.settings.decisions.length;
+      this.props.dispatch({
+        type: "ADD_DECISION",
+        decision: new Decision(uuidv4(), title, selections.map(v => new SelectionItem({ title: v }))),
+      });
+
+      this.props.dispatch({
+        type: "SET_KEY_VAL",
+        key: 'selectedDecision',
+        val: newDecisionIndex,
+      });
+
+      this.setState({ showToast: true, toastMessage: `"${title}"輪盤已由網址新增！` });
+      this.props.history.push(`${Globals.pwaUrl}/wheel`);
+    }
   }
 
   spin: Function | null | undefined;
