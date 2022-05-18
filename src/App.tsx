@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import {
-  setupConfig,
+  setupIonicReact,
   IonApp,
   IonIcon,
   IonRouterOutlet,
@@ -41,8 +41,6 @@ import ShareTextModal from './components/ShareTextModal';
 import { Settings } from './models/Settings';
 import { TmpSettings } from './models/TmpSettings';
 import WheelPage from './pages/WheelPage';
-import { Decision } from './models/Decision';
-import { SelectionItem } from './models/SelectionItem';
 
 const electronBackendApi: any = (window as any).electronBackendApi;
 
@@ -62,7 +60,7 @@ class DebugRouter extends IonReactRouter {
 }
 */
 
-setupConfig({
+setupIonicReact({
   mode: 'md', // Use a consistent UI style across Android and iOS.
   swipeBackEnabled: false,
 });

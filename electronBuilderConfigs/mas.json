@@ -1,21 +1,14 @@
 {
-    "extends": null,
+    "extends": "electronBuilderConfigs/common.json",
     "appId": "io.github.myhpwa.spin-the-wheel",
-    "files": [
-        "buildElectron/**/*",
-        "package.json"
-    ],
-    "icon": "buildElectron/icon.icns",
     "mac": {
         "type": "distribution",
         "identity": null
     },
     "mas": {
         "type": "distribution",
-        "identity": "3rd Party Mac Developer",
-        "artifactName": "${name}_${version}_mas64.${ext}",
-        "category": "public.app-category.education",
-        "minimumSystemVersion": "10.10",
+        "identity": "Meng-Yuan Huang",
+        "artifactName": "${name}_${version}_mas.${ext}",
         "hardenedRuntime": false,
         "entitlements": "buildElectron/entitlements.mas.plist",
         "entitlementsInherit": "buildElectron/entitlements.mas.inherit.plist",

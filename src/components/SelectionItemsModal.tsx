@@ -67,7 +67,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
   }
 
   getBookmarkRows() {
-    let rows = Array<object>();
+    let rows = Array<JSX.Element>();
     this.state.newDecision.selections.forEach((d, i) => {
       rows.push(
         <IonItemSliding key={`selectionItemSliding_` + i}>
@@ -107,7 +107,6 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
     return (
       <IonModal
-        cssClass='uiFont'
         swipeToClose={false}
         backdropDismiss={false}
         isOpen={this.props.showModal}

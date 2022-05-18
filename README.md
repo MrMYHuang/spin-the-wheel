@@ -46,11 +46,11 @@ https://myhpwa.github.io/spin-the-wheel
 此 progressive web app (PWA)，可不安裝直接在網頁瀏覽器執行，或安裝至手機、平板、筆電、桌機。建議安裝，以避免瀏覽器定期清除快取，導致 app 設定不見！
 
 #### Windows, macOS, Linux, Android - 使用 Chrome 安裝
-使用Chrome瀏覧器（建議最新版）開啟上述PWA網址後，網址列會出現一個加號，如圖所示：
+使用 Chrome 瀏覧器（建議最新版）開啟上述 PWA 網址後，網址列會出現一個加號，如圖所示：
 
 <img src='https://github.com/MrMYHuang/spin-the-wheel/raw/main/docs/images/ChromeInstall.png' width='50%' />
 
-點擊它，以完成安裝。安裝完後會在桌面出現"spin-the-wheel" app 圖示。
+點擊它，以完成安裝。安裝完後會在桌面出現 "spin-the-wheel" app 圖示。
 
 #### iOS - 使用 Safari 安裝
 1. 使用Safari開啟web app網址，再點擊下方中間的"分享"圖示：
@@ -92,7 +92,7 @@ https://myhpwa.github.io/spin-the-wheel
 </a>
 
 ## <a id='knownIssues'>已知問題</a>
-1. iOS Safari 13.4以上才支援"分享此頁"功能。
+1. iOS Safari 13.4 以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
 * PWA 1.3.3:

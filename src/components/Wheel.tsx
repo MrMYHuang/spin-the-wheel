@@ -20,7 +20,7 @@ class _Wheel extends React.Component<{
     setSpin: Function,
     setRenderWheel: Function,
     updateSelectedItem: Function,
-    decision: () => Decision | undefined,
+    decision: Decision | undefined,
 }> {
     wheel: d3.Selection<SVGGElement, null, d3.BaseType, unknown> | undefined;
 
@@ -34,12 +34,16 @@ class _Wheel extends React.Component<{
         });
     }
 
+    componentDidUpdate() {
+        this.renderWheel();
+    }
+
     ionViewWillEnter() {
         this.renderWheel();
     }
 
     get decision() {
-        return this.props.decision();
+        return this.props.decision;
     }
 
     renderWheel() {

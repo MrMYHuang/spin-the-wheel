@@ -44,7 +44,7 @@ class _WheelPage extends React.Component<PageProps, State> {
     }
   }
 
-  decision() {
+  get decision() {
     const decisions = this.props.settings.decisions;
     if (decisions.length === 0) {
       return undefined;
@@ -85,7 +85,7 @@ class _WheelPage extends React.Component<PageProps, State> {
             <IonTitle className='uiFont'>幸運輪盤</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
-              const thisDecision = `title=${encodeURIComponent(this.decision()!.title)}&${this.decision()!.selections.map(v => `s=${encodeURIComponent(v.title)}`).join('&')}`;
+              const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `s=${encodeURIComponent(v.title)}`).join('&')}`;
               this.props.dispatch({
                 type: "TMP_SET_KEY_VAL",
                 key: 'shareTextModal',
@@ -101,15 +101,15 @@ class _WheelPage extends React.Component<PageProps, State> {
         </IonHeader>
         <IonContent>
           <div className='contentCenter'>
-            <div style={{ flex: '0 0 auto', fontSize: this.decision()?.fontSize || 24 }}>
-              {this.decision()?.title || <span>&nbsp;</span>}
+            <div style={{ flex: '0 0 auto', fontSize: this.decision?.fontSize || 24 }}>
+              {this.decision?.title || <span>&nbsp;</span>}
               <span style={{ color: 'red' }}>{this.state.selectedItem}</span>
             </div>
 
             <Wheel updateSelectedItem={(result: any) => {
               this.setState({ selectedItem: result });
             }}
-              decision={this.decision.bind(this)}
+              decision={this.decision}
               setSpin={(spin: Function) => this.spin = spin}
               setRenderWheel={(renderWheel: Function) => this.renderWheel = renderWheel}
             />
@@ -117,9 +117,9 @@ class _WheelPage extends React.Component<PageProps, State> {
             <div style={{ display: 'flex', flexDirection: 'row', verticalAlign: 'middle', width: 'calc(100% - 40px)' }}>
               <span className='uiFont' style={{ marginTop: 'auto', marginBottom: 'auto' }}>文字大小</span>
               <div style={{ marginTop: 'auto', marginBottom: 'auto', flex: '1 1 auto' }}>
-                <IonRange min={12} max={128} pin={true} snaps={true} value={this.decision()?.fontSize || 24} onIonChange={async e => {
+                <IonRange min={12} max={128} pin={true} snaps={true} value={this.decision?.fontSize || 24} onIonChange={async e => {
                   let decisions = this.props.settings.decisions;
-                  let decision = this.decision()!;
+                  let decision = this.decision!;
 
                   if (decision == null) {
                     return;
@@ -155,6 +155,7 @@ class _WheelPage extends React.Component<PageProps, State> {
               showModal: this.state.showDecisonsModal,
               finish: () => {
                 this.setState({ showDecisonsModal: false, selectedItem: '' });
+                console.log('abc');
                 setImmediate(() => {
                   this.renderWheel!();
                 });

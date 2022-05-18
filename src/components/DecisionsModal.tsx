@@ -65,7 +65,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
 
   getDecisionRows() {
     let decisions = this.props.settings.decisions;
-    let rows = Array<object>();
+    let rows = Array<JSX.Element>();
     decisions.forEach((d, i) => {
       rows.push(
         <IonItemSliding key={`decisionItemSliding_` + i}>
@@ -105,7 +105,6 @@ class _DecisionsModal extends React.Component<PageProps, State> {
   render() {
     return (
       <IonModal
-        cssClass='uiFont'
         swipeToClose={false}
         backdropDismiss={false}
         isOpen={this.props.showModal}
