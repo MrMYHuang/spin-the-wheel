@@ -43,15 +43,10 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
     this.bookmarkListRef = React.createRef<HTMLIonListElement>();
   }
 
-  static getDerivedStateFromProps(props: any, state: any) {
-    if (props.selectedDecision !== state.newDecision) {
-      return {
-        newDecision: props.selectedDecision,
-      };
-    }
-
-    // Return null to indicate no change to state.
-    return null;
+  componentDidUpdate(prevProps: any) {
+      if (this.props.selectedDecision !== prevProps.selectedDecision) {
+        this.setState({newDecision: JSON.parse(JSON.stringify(this.props.selectedDecision))})
+      }
   }
 
   delBookmarkHandler(i: number) {
@@ -101,7 +96,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
   }
 
   render() {
-    if (this.props.selectedDecision == null) {
+    if (this.state.newDecision == null) {
       return <></>;
     }
 

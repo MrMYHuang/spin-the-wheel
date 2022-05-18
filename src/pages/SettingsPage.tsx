@@ -179,7 +179,7 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                       backdropDismiss={false}
                       onDidPresent={(ev) => {
                       }}
-                      header={'重置會還原 app 設定預設值並清除書籤！確定重置？'}
+                      header={'重置會還原 app 設定至預設值並清除所有輪盤！確定重置？'}
                       buttons={[
                         {
                           text: '取消',
@@ -249,9 +249,9 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                       key: 'uiFontSize',
                       val: +e.detail.value,
                     });
-                    setImmediate(() => {
+                    setTimeout(() => {
                       Globals.updateCssVars(this.props.settings);
-                    });
+                    }, 0);
                   }} />
                 </div>
               </div>

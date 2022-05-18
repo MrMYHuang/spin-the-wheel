@@ -118,22 +118,19 @@ class _WheelPage extends React.Component<PageProps, State> {
               <span className='uiFont' style={{ marginTop: 'auto', marginBottom: 'auto' }}>文字大小</span>
               <div style={{ marginTop: 'auto', marginBottom: 'auto', flex: '1 1 auto' }}>
                 <IonRange min={12} max={128} pin={true} snaps={true} value={this.decision?.fontSize || 24} onIonChange={async e => {
-                  let decisions = this.props.settings.decisions;
-                  let decision = this.decision!;
-
-                  if (decision == null) {
+                  if (this.decision == null) {
                     return;
                   }
+                  let decisions = this.props.settings.decisions;
+                  // Copy to a new object by JSON.
+                  let decision = JSON.parse(JSON.stringify(this.decision));
 
                   decision.fontSize = +e.detail.value;
-                  const i = decisions.findIndex(d => d.uuid === decision.uuid);
+                  const i = decisions.findIndex(d => d.uuid === decision!.uuid);
                   decisions[i] = decision;
                   this.props.dispatch({
                     type: "UPDATE_DECISIONS",
                     decisions: decisions,
-                  });
-                  setImmediate(() => {
-                    this.renderWheel!();
                   });
                 }} />
               </div>
@@ -155,10 +152,6 @@ class _WheelPage extends React.Component<PageProps, State> {
               showModal: this.state.showDecisonsModal,
               finish: () => {
                 this.setState({ showDecisonsModal: false, selectedItem: '' });
-                console.log('abc');
-                setImmediate(() => {
-                  this.renderWheel!();
-                });
               },
               ...this.props
             }}

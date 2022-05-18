@@ -5,5 +5,6 @@ module.exports = customizeCra.override(
   // add webpack bundle visualizer if BUNDLE_VISUALIZE flag is enabled
   process.env.BUNDLE_VISUALIZE === 1 && customizeCra.addBundleVisualizer(),
 
-  customizeCra.addWebpackPlugin(new NodePolyfillPlugin())
+  customizeCra.addWebpackPlugin(new NodePolyfillPlugin()),
+  customizeCra.removeModuleScopePlugin(),
 );

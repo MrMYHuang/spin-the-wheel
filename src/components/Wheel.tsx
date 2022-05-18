@@ -34,8 +34,10 @@ class _Wheel extends React.Component<{
         });
     }
 
-    componentDidUpdate() {
-        this.renderWheel();
+    componentDidUpdate(prevProps: any) {
+        if (this.props.decision !== prevProps.decision) {
+            this.renderWheel();
+        }
     }
 
     ionViewWillEnter() {
@@ -154,8 +156,6 @@ class _Wheel extends React.Component<{
 
 const Wheel = connect((state: any) => {
     return {
-        decisions: state.settings.decisions,
-        selectedDecision: state.settings.selectedDecision,
     };
 })(withIonLifeCycle(_Wheel))
 
