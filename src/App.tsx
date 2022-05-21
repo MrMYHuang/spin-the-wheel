@@ -14,6 +14,8 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { connect, Provider } from 'react-redux';
 import queryString from 'query-string';
+import { withTranslation, WithTranslation } from 'react-i18next';
+
 import getSavedStore from './redux/store';
 import { settings, pieChart } from 'ionicons/icons';
 
@@ -70,7 +72,7 @@ export var serviceWorkCallbacks = {
   onUpdate: function (registration: ServiceWorkerRegistration) { },
 };
 
-interface Props {
+interface Props extends WithTranslation {
   dispatch: Function;
   shareTextModal: any;
   settings: Settings;
@@ -149,7 +151,7 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
           val: +keyVal[1],
         });
       });
-    }    
+    }
     Globals.updateCssVars(store.getState().settings);
 
     this.state = {
@@ -263,6 +265,51 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
             </IonTabBar>
           </IonTabs>
         </IonReactRouter>
+
+        <IonAlert
+          cssClass='uiFont'
+          backdropDismiss={false}
+          isOpen={!this.props.settings.appInitialized || this.props.tmpSettings.showLangSelector}
+          header={this.props.t('selectLang')}
+          inputs={[
+            {
+              name: 'radio0',
+              type: 'radio',
+              label: 'English',
+              value: 'en'
+            },
+            {
+              name: 'radio1',
+              type: 'radio',
+              label: '中文',
+              value: 'zh'
+            },
+          ]}
+          buttons={[
+            {
+              text: this.props.t('Ok'),
+              cssClass: 'primary uiFont',
+              handler: async (value) => {
+                this.props.dispatch({
+                  type: "SET_KEY_VAL",
+                  key: 'language',
+                  val: value,
+                });
+                this.props.dispatch({
+                  type: "SET_KEY_VAL",
+                  key: 'appInitialized',
+                  val: true,
+                });
+                this.props.dispatch({
+                  type: "TMP_SET_KEY_VAL",
+                  key: 'showLangSelector',
+                  val: false,
+                });
+              },
+            },
+          ]}
+        />
+
         <IonAlert
           cssClass='uiFont'
           isOpen={this.state.showUpdateAlert}
@@ -273,10 +320,10 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
             this.registrationNew?.installing?.postMessage({ type: 'SKIP_WAITING' });
             this.registrationNew?.waiting?.postMessage({ type: 'SKIP_WAITING' });
           }}
-          header={'App 已更新，請重啟!'}
+          header={this.props.t('updateMsg')}
           buttons={[
             {
-              text: '關閉',
+              text: this.props.t('Close'),
               cssClass: 'primary uiFont',
               handler: (value) => {
                 this.setState({
@@ -305,15 +352,15 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
           cssClass='uiFont'
           isOpen={this.state.showRestoreAppSettingsToast}
           onDidDismiss={() => this.setState({ showRestoreAppSettingsToast: false })}
-          message={`已套用app連結中的設定，是否還原設定？`}
+          message={this.props.t('appSettingsApplied')}
           buttons={[
             {
-              text: '取消',
+              text: this.props.t('Cancel'),
               role: 'cancel',
               handler: () => this.setState({ showRestoreAppSettingsToast: false })
             },
             {
-              text: '還原',
+              text: this.props.t('Restore'),
               handler: () => this.restoreAppSettings(),
             },
           ]}
@@ -344,6 +391,6 @@ const AppOrig = connect(
 )(_AppOrig);
 
 
-const App = withRouter(_App);
+const App = withTranslation()(withRouter(_App));
 
 export default App;

@@ -5,6 +5,7 @@ import { shareSocial } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
@@ -14,7 +15,7 @@ import { Decision } from '../models/Decision';
 import { SelectionItem } from '../models/SelectionItem';
 import Globals from '../Globals';
 
-interface Props {
+interface Props extends WithTranslation {
   dispatch: Function;
   tmpSettings: TmpSettings;
   settings: Settings;
@@ -69,7 +70,7 @@ class _WheelPage extends React.Component<PageProps, State> {
         val: newDecisionIndex,
       });
 
-      this.setState({ showToast: true, toastMessage: `"${title}"輪盤已由網址新增！` });
+      this.setState({ showToast: true, toastMessage: `"${title}"${this.props.t('wheelAdded')}` });
       this.props.history.push(`${Globals.pwaUrl}/wheel`);
     }
   }
@@ -82,7 +83,7 @@ class _WheelPage extends React.Component<PageProps, State> {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>幸運輪盤</IonTitle>
+            <IonTitle className='uiFont'>{this.props.t('wheelPageTitle')}</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
               const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `s=${encodeURIComponent(v.title)}`).join('&')}`;
@@ -115,7 +116,7 @@ class _WheelPage extends React.Component<PageProps, State> {
             />
 
             <div style={{ display: 'flex', flexDirection: 'row', verticalAlign: 'middle', width: 'calc(100% - 40px)' }}>
-              <span className='uiFont' style={{ marginTop: 'auto', marginBottom: 'auto' }}>文字大小</span>
+              <span className='uiFont' style={{ marginTop: 'auto', marginBottom: 'auto' }}>{this.props.t('fontSize')}</span>
               <div style={{ marginTop: 'auto', marginBottom: 'auto', flex: '1 1 auto' }}>
                 <IonRange min={12} max={128} pin={true} snaps={true} value={this.decision?.fontSize || 24} onIonChange={async e => {
                   if (this.decision == null) {
@@ -139,10 +140,10 @@ class _WheelPage extends React.Component<PageProps, State> {
             <div className='buttonsRow'>
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.setState({ showDecisonsModal: true });
-              }}>選擇</IonButton>
+              }}>{this.props.t('Select')}</IonButton>
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.spin!();
-              }}>轉動</IonButton>
+              }}>{this.props.t('Spin')}</IonButton>
             </div>
 
           </div>
@@ -182,6 +183,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 //const mapDispatchToProps = {};
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(WheelPage);
+)(WheelPage));

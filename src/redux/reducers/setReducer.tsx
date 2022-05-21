@@ -1,5 +1,6 @@
 import Globals from '../../Globals';
 import { Settings } from '../../models/Settings';
+import i18n from '../../i18n';
 
 function updateUi(newSettings: Settings) {
   while (document.body.classList.length > 0) {
@@ -30,6 +31,9 @@ export default function reducer(state = new Settings(), action: any) {
           document.body.classList.toggle(`theme${val}`, true);
           break;
         }
+        case 'language':
+          i18n.changeLanguage(val);
+          break;
       }
 
       (newSettings as any)[key] = val;
@@ -74,6 +78,7 @@ export default function reducer(state = new Settings(), action: any) {
           (newSettings as any)[key] = (defaultSettings as any)[key];
         }
       });
+      i18n.changeLanguage(newSettings.language);
   }
   return newSettings;
 }

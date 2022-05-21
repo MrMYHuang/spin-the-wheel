@@ -5,13 +5,14 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { add, build, swapVertical } from 'ionicons/icons';
 import { v4 as uuidv4 } from 'uuid';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Settings } from '../models/Settings';
 import { TmpSettings } from '../models/TmpSettings';
 import { Decision } from '../models/Decision';
 import SelectionItemsModal from './SelectionItemsModal';
 
-interface Props {
+interface Props extends WithTranslation {
   showModal: boolean;
   finish: Function;
   dispatch: Function;
@@ -25,7 +26,6 @@ interface State {
   showSelectionItemsModal: boolean;
   reorder: boolean;
   showToast: boolean;
-  toastMessage: string;
 }
 
 interface PageProps extends Props, RouteComponentProps<{
@@ -43,7 +43,6 @@ class _DecisionsModal extends React.Component<PageProps, State> {
       showSelectionItemsModal: false,
       reorder: false,
       showToast: false,
-      toastMessage: '',
     }
     this.decisionListRef = React.createRef<HTMLIonListElement>();
   }
@@ -94,7 +93,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
             <IonItemOption className='uiFont' color='danger' onClick={(e) => {
               this.delDecisionHandler(d.uuid);
               this.decisionListRef.current?.closeSlidingItems();
-            }}>刪除</IonItemOption>
+            }}>{this.props.t('Delete')}</IonItemOption>
           </IonItemOptions>
         </IonItemSliding>
       );
@@ -112,7 +111,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
       >
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>選擇輪盤</IonTitle>
+            <IonTitle className='uiFont'>{this.props.t('selectWheel')}</IonTitle>
 
             <IonButton fill={this.state.reorder ? 'solid' : 'clear'} slot='end'
               onClick={ev => this.setState({ reorder: !this.state.reorder })}>
@@ -141,17 +140,17 @@ class _DecisionsModal extends React.Component<PageProps, State> {
             cssClass='uiFont'
             backdropDismiss={false}
             isOpen={this.state.showAddDecisionAlert}
-            header={'請輸入輪盤標題'}
+            header={this.props.t('inputWheelTitle')}
             inputs={[
               {
                 name: 'name0',
                 type: 'search',
-                placeholder: '例：中餐吃什麼？'
+                placeholder: this.props.t('wheelTitleExample')
               },
             ]}
             buttons={[
               {
-                text: '新增',
+                text: this.props.t('Add'),
                 cssClass: 'primary uiFont',
                 handler: (value) => {
                   this.setState({ showAddDecisionAlert: false });
@@ -162,7 +161,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
                 },
               },
               {
-                text: '取消',
+                text: this.props.t('Cancel'),
                 role: 'cancel',
                 cssClass: 'secondary uiFont',
                 handler: () => this.setState({ showAddDecisionAlert: false }),
@@ -173,7 +172,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
           <div>
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
               this.props.finish();
-            }}>關閉</IonButton>
+            }}>{this.props.t('Close')}</IonButton>
           </div>
 
           <SelectionItemsModal
@@ -216,6 +215,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 //const DecisionsModal = withIonLifeCycle(_DecisionsModal);
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(_DecisionsModal);
+)(_DecisionsModal));

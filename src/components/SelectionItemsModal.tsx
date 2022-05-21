@@ -4,11 +4,12 @@ import { ItemReorderEventDetail } from '@ionic/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { add, swapVertical } from 'ionicons/icons';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Decision } from '../models/Decision';
 import { SelectionItem } from '../models/SelectionItem';
 
-interface Props {
+interface Props extends WithTranslation {
   showModal: boolean;
   selectedDecision: Decision | null;
   finish: Function;
@@ -72,7 +73,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
             <IonInput
               value={d.title}
-              placeholder='新項目'
+              placeholder={this.props.t('newItem')}
               clearInput
               className='ionInput'
               onIonChange={e => {
@@ -87,7 +88,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
             <IonItemOption className='uiFont' color='danger' onClick={(e) => {
               this.delBookmarkHandler(i);
               this.bookmarkListRef.current?.closeSlidingItems();
-            }}>刪除</IonItemOption>
+            }}>{this.props.t('Delete')}</IonItemOption>
           </IonItemOptions>
         </IonItemSliding>
       );
@@ -113,7 +114,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
       >
         <IonHeader>
           <IonToolbar>
-            <IonTitle className='uiFont'>編輯輪盤</IonTitle>
+            <IonTitle className='uiFont'>{this.props.t('editWheel')}</IonTitle>
 
             <IonButton fill={this.state.reorder ? 'solid' : 'clear'} slot='end'
               onClick={ev => this.setState({ reorder: !this.state.reorder })}>
@@ -125,7 +126,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
           <IonInput
             value={this.state.newDecision.title}
-            placeholder='輪盤標題'
+            placeholder={this.props.t('wheelTitle')}
             clearInput
             className='ionInput'
             onIonChange={e => {
@@ -156,11 +157,11 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
           <div className='buttonsRow'>
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
               this.props.finish(this.state.newDecision);
-            }}>儲存</IonButton>
+            }}>{this.props.t('Save')}</IonButton>
 
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
               this.props.finish();
-            }}>取消</IonButton>
+            }}>{this.props.t('Cancel')}</IonButton>
           </div>
 
           <IonToast
@@ -187,6 +188,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 //const SelectionItemsModal = withIonLifeCycle(_SelectionItemsModal);
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(_SelectionItemsModal);
+)(_SelectionItemsModal));

@@ -55,8 +55,8 @@ const Globals = {
   enableAppLog,
   disableAppLog,
   appSettings: {
-    'theme': '佈景主題',
-    'uiFontSize': 'UI字型大小',
+    'theme': 'theme',
+    'uiFontSize': 'uiFontSize',
   } as Record<string, string>,
   fetchErrorContent: (
     <div className='contentCenter'>

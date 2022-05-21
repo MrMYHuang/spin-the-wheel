@@ -5,6 +5,8 @@ import { SelectionItem } from "./SelectionItem";
 
 export class Settings {
     version: number = 1;
+    appInitialized: boolean = false;
+    language: string = 'en';
     hasAppLog: boolean = true;
     theme: number = 2;
     uiFontSize: number = 24;
@@ -12,13 +14,13 @@ export class Settings {
     decisions: Decision[] = [
         new Decision(
             uuidv4(),
-            '出國去哪玩？',
+            'Which country to travel？',
             [
-                new SelectionItem({ title: '美國' }),
-                new SelectionItem({ title: '日本' }),
-                new SelectionItem({ title: '澳洲' }),
-                new SelectionItem({ title: '法國' }),
-                new SelectionItem({ title: '加拿大' }),
+                new SelectionItem({ title: 'America' }),
+                new SelectionItem({ title: 'Japan' }),
+                new SelectionItem({ title: 'Australia' }),
+                new SelectionItem({ title: 'France' }),
+                new SelectionItem({ title: 'Canada' }),
             ]
         )
     ];

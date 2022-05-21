@@ -4,8 +4,9 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Globals from '../Globals';
 import * as qrcode from 'qrcode';
+import { withTranslation, WithTranslation } from 'react-i18next';
 
-interface Props {
+interface Props extends WithTranslation{
   showModal: boolean;
   text: string;
   finish: Function;
@@ -65,21 +66,21 @@ class _ShareTextModal extends React.Component<PageProps, State> {
         <IonContent>
           <div style={{ display: 'flex', flexDirection: 'column', height: '100%', alignItems: 'center' }}>
             <div>
-              <IonLabel className='uiFont'>此頁app連結已複製至剪貼簿！</IonLabel>
+              <IonLabel className='uiFont'>{this.props.t('appLinkCopied')}</IonLabel>
             </div>
             <div>
-              <IonLabel className='uiFont'>也可以使用QR Code分享:</IonLabel>
+              <IonLabel className='uiFont'>{this.props.t('shareByQr')}:</IonLabel>
             </div>
             <div style={{ flexGrow: 1, flexShrink: 0, display: 'flex', alignItems: 'center', margin: 10 }}>
               <canvas id='qrcCanvas' width='500' height='500' style={{ margin: '0px auto' }} />
             </div>
             <div>
-              <IonLabel className='uiFont'>包括app設定:</IonLabel>
+              <IonLabel className='uiFont'>{this.props.t('includAppSettings')}:</IonLabel>
               <IonList>
                 {
                   Object.keys(Globals.appSettings).map((key, i) =>
                     <IonItem key={`appSettingExportItem_${i}`}>
-                      <IonLabel className='ion-text-wrap uiFont'>{Globals.appSettings[key]}</IonLabel>
+                      <IonLabel className='ion-text-wrap uiFont'>{this.props.t(key)}</IonLabel>
                       <IonToggle slot='end' onIonChange={e => {
                         const isAppSettingsExport =  this.state.isAppSettingsExport;
                         isAppSettingsExport[i] = e.detail.checked;
@@ -93,7 +94,7 @@ class _ShareTextModal extends React.Component<PageProps, State> {
               </IonList>
             </div>
             <div>
-              <IonButton fill='outline' shape='round' size='large' onClick={() => this.props.finish()}>關閉</IonButton>
+              <IonButton fill='outline' shape='round' size='large' onClick={() => this.props.finish()}>{this.props.t('Close')}</IonButton>
             </div>
           </div>
         </IonContent>
@@ -110,6 +111,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 //const mapDispatchToProps = {};
 
-export default connect(
+export default withTranslation()(connect(
   mapStateToProps,
-)(_ShareTextModal);
+)(_ShareTextModal));
