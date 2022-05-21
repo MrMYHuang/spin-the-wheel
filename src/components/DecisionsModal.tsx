@@ -184,7 +184,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
                 if (newDecision == null) {
                   return;
                 }
-                let decisions = this.props.settings.decisions;
+                let decisions = JSON.parse(JSON.stringify(this.props.settings.decisions)) as Decision[];
                 const i = decisions.findIndex(d => d.uuid === newDecision.uuid);
                 decisions[i] = newDecision;
                 this.props.dispatch({

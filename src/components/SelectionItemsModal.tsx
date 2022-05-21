@@ -146,7 +146,7 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
             <IonFabButton
               onClick={e => {
                 let newDecision = this.state.newDecision;
-                newDecision.selections.push(new SelectionItem({ title: '' }));
+                newDecision.selections.push({ title: '' } as SelectionItem);
                 this.setState({ newDecision });
               }}
             >

@@ -50,7 +50,7 @@ class _WheelPage extends React.Component<PageProps, State> {
     if (decisions.length === 0) {
       return undefined;
     }
-    return decisions[this.props.settings.selectedDecision]
+    return decisions[this.props.settings.selectedDecision];
   }
 
   ionViewWillEnter() {
@@ -61,7 +61,9 @@ class _WheelPage extends React.Component<PageProps, State> {
       const newDecisionIndex = this.props.settings.decisions.length;
       this.props.dispatch({
         type: "ADD_DECISION",
-        decision: new Decision(uuidv4(), title, selections.map(v => new SelectionItem({ title: v }))),
+        decision: new Decision(uuidv4(), title, selections.map(v => { 
+          return {title: v} as SelectionItem
+          })),
       });
 
       this.props.dispatch({
@@ -104,7 +106,7 @@ class _WheelPage extends React.Component<PageProps, State> {
           <div className='contentCenter'>
             <div style={{ flex: '0 0 auto', fontSize: this.decision?.fontSize || 24 }}>
               {this.decision?.title || <span>&nbsp;</span>}
-              <span style={{ color: 'red' }}>{this.state.selectedItem}</span>
+              <span style={{ color: 'green' }}>{` ` +this.state.selectedItem}</span>
             </div>
 
             <Wheel updateSelectedItem={(result: any) => {
@@ -122,9 +124,8 @@ class _WheelPage extends React.Component<PageProps, State> {
                   if (this.decision == null) {
                     return;
                   }
-                  let decisions = this.props.settings.decisions;
-                  // Copy to a new object by JSON.
-                  let decision = JSON.parse(JSON.stringify(this.decision));
+                  let decisions = JSON.parse(JSON.stringify(this.props.settings.decisions)) as Decision[];
+                  let decision = {...this.decision};
 
                   decision.fontSize = +e.detail.value;
                   const i = decisions.findIndex(d => d.uuid === decision!.uuid);

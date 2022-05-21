@@ -97,6 +97,7 @@ https://myhpwa.github.io/spin-the-wheel
 ## <a id='history'>版本歷史</a>
 * PWA 2.0.0:
   * [新增] 英文/中文切換。
+  * [新增] 更新 app 圖示。
   * [優化] 升級為 @reduxjs/toolkit node package。
 
 * PWA 1.3.4:
