@@ -69,7 +69,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
       rows.push(
         <IonItemSliding key={`decisionItemSliding_` + i}>
           <IonItem key={`decisionItem_` + i}>
-            <IonButton fill='clear' key={`decisionSubItem_` + i} size='large' className='uiFont' style={{flex: '1 1 auto'}}
+            <IonButton fill='clear' key={`decisionSubItem_` + i} size='large' className='ion-text-wrap uiFont' style={{flex: '1 1 auto'}}
               onClick={e => {
                 this.props.dispatch({
                   type: "SET_KEY_VAL",

@@ -243,3 +243,7 @@ input:-webkit-autofill:focus {
 .ionInput {
     font-size: var(--ui-font-size);
 }
+
+ion-button {
+    text-transform: none;
+}
