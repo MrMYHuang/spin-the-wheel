@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.myhpwa.spin-the-wheel</id>
+  <name>Spin Wheel</name>
+  <summary>[EN] Spin the wheel. To see what will be selected! [中文] 轉動輪盤，看會選到什麼！</summary>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      [EN] This app helps you to randomly select one from multiple items. You can create your own wheels with multiple selections. This app supports English and Chinese.
+    </p>
+    <p>
+      [中文] 這款 app 幫你隨機選擇從多個選項選出一個。你可以建立自己的多選項輪盤。這 app 支援英文與中文。
+    </p>
+  </description>
+  <url type="homepage">https://github.com/MrMYHuang/spin-the-wheel</url>
+  <launchable type="desktop-id">io.github.myhpwa.spin-the-wheel.desktop</launchable>
+  <developer_name>Meng-Yuan Huang</developer_name>
+  <screenshots>
+    <screenshot type="default">
+    </screenshot>
+  </screenshots>
+  <content_rating type="oars-1.1"/>
+  <releases>
+    <release version="19.2.2" date="2022-05-10">
+      <description>
+        <ul>
+          <li>修正 bugs。</li>
+        </ul>
+      </description>
+    </release>
+  </releases> 
+</component>

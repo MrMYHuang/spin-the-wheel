@@ -1,17 +1,14 @@
 {
-  "appId": "io.github.mrmyhuang.cbetar2",
+  "appId": "io.github.myhpwa.spin-the-wheel",
   "files": [
     "buildElectron/**/*",
     "package.json"
-  ],
-  "asarUnpack": [
-    "node_modules/{libxslt-myh,node1-libxmljsmt-myh}/**/*.{js,json,node}"
   ],
   "icon": "buildElectron/icon.icns",
   "linux": {
     "artifactName": "${name}_${version}_linux_${arch}.${ext}",
     "desktop": {
-      "StartupWMClass": "cbetar2"
+      "StartupWMClass": "spin-the-wheel"
     },
     "category": "Education"
   },

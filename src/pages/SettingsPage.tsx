@@ -26,7 +26,6 @@ interface Props extends WithTranslation {
   voiceURI: string;
   speechRate: number;
   mainVersion: string | null;
-  cbetaOfflineDbMode: boolean;
 }
 
 interface PageProps extends Props, RouteComponentProps<{
@@ -243,7 +242,7 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
                     val: value,
                   });
                 }}>
-                <IonSelectOption className='uiFont cbeta' value={0}>{this.props.t('themeGreen')}</IonSelectOption>
+                <IonSelectOption className='uiFont green' value={0}>{this.props.t('themeGreen')}</IonSelectOption>
                 <IonSelectOption className='uiFont dark' value={1}>{this.props.t('themeDark')}</IonSelectOption>
                 <IonSelectOption className='uiFont light' value={2}>{this.props.t('themeLight')}</IonSelectOption>
                 <IonSelectOption className='uiFont oldPaper' value={3}>{this.props.t('themeOldPaper')}</IonSelectOption>

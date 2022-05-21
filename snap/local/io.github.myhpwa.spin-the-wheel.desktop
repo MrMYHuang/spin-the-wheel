@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Spin Wheel
+GenericName=Spin The Wheel
+Exec=spin-the-wheel/spin-the-wheel --no-sandbox
+Icon=${SNAP}/meta/gui/icon.png
+Type=Application
+Terminal=false
+Categories=Education;
+StartupWMClass=spin-the-wheel

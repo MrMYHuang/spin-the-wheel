@@ -1,6 +1,5 @@
 {
   "extends": "electronBuilderConfigs/common.json",
-  "appId": "io.github.myhpwa.spin-the-wheel",
   "icon": "buildElectron/icon.icns",
   "mac": {
     "type": "development",
