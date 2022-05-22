@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		13D3A9872839E17C003CB7D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 13D3A9892839E17C003CB7D7 /* InfoPlist.strings */; };
 		DBC713B2269D606400FCE5B0 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC713B1269D606400FCE5B0 /* Tests_iOS.swift */; };
 		DBC713BF269D606400FCE5B0 /* SpinTheWheelApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC71396269D606300FCE5B0 /* SpinTheWheelApp.swift */; };
 		DBC713C1269D606400FCE5B0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC71397269D606300FCE5B0 /* ContentView.swift */; };
@@ -26,11 +27,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		13D3A97C2839DBFB003CB7D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
+		13D3A9882839E17C003CB7D7 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		13D3A98A2839E201003CB7D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DBC71396269D606300FCE5B0 /* SpinTheWheelApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinTheWheelApp.swift; sourceTree = "<group>"; };
 		DBC71397269D606300FCE5B0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DBC71398269D606400FCE5B0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DBC7139D269D606400FCE5B0 /* 幸運輪盤.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "幸運輪盤.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBC713A0269D606400FCE5B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DBC7139D269D606400FCE5B0 /* Spin The Wheel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Spin The Wheel.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBC713AD269D606400FCE5B0 /* Tests iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBC713B1269D606400FCE5B0 /* Tests_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_iOS.swift; sourceTree = "<group>"; };
 		DBC713B3269D606400FCE5B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,7 +96,7 @@
 		DBC7139E269D606400FCE5B0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DBC7139D269D606400FCE5B0 /* 幸運輪盤.app */,
+				DBC7139D269D606400FCE5B0 /* Spin The Wheel.app */,
 				DBC713AD269D606400FCE5B0 /* Tests iOS.xctest */,
 			);
 			name = Products;
@@ -102,7 +105,8 @@
 		DBC7139F269D606400FCE5B0 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				DBC713A0269D606400FCE5B0 /* Info.plist */,
+				13D3A97D2839DBFB003CB7D7 /* Info.plist */,
+				13D3A9892839E17C003CB7D7 /* InfoPlist.strings */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -145,7 +149,7 @@
 				DBC713D8269D6B2C00FCE5B0 /* SnapKit */,
 			);
 			productName = "SpinTheWheel (iOS)";
-			productReference = DBC7139D269D606400FCE5B0 /* 幸運輪盤.app */;
+			productReference = DBC7139D269D606400FCE5B0 /* Spin The Wheel.app */;
 			productType = "com.apple.product-type.application";
 		};
 		DBC713AC269D606400FCE5B0 /* Tests iOS */ = {
@@ -191,6 +195,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hant",
 			);
 			mainGroup = DBC71390269D606300FCE5B0;
 			packageReferences = (
@@ -212,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DBC713C3269D606400FCE5B0 /* Assets.xcassets in Resources */,
+				13D3A9872839E17C003CB7D7 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,11 +259,32 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		13D3A97D2839DBFB003CB7D7 /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13D3A97C2839DBFB003CB7D7 /* Base */,
+			);
+			name = Info.plist;
+			sourceTree = "<group>";
+		};
+		13D3A9892839E17C003CB7D7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				13D3A9882839E17C003CB7D7 /* zh-Hant */,
+				13D3A98A2839E201003CB7D7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		DBC713C5269D606400FCE5B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -317,6 +344,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -375,15 +403,15 @@
 				DEVELOPMENT_TEAM = XU8X8HU5ST;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = iOS/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.github.myhpwa.spin-the-wheel";
-				PRODUCT_NAME = "幸運輪盤";
+				PRODUCT_NAME = "Spin The Wheel";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
@@ -401,15 +429,15 @@
 				DEVELOPMENT_TEAM = XU8X8HU5ST;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = iOS/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.github.myhpwa.spin-the-wheel";
-				PRODUCT_NAME = "幸運輪盤";
+				PRODUCT_NAME = "Spin The Wheel";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
