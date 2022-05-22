@@ -31,8 +31,8 @@ parts:
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | NVM_DIR=`pwd`/nvm bash
         . nvm/nvm.sh
         nvm install 16
-        npm i --ignore-scripts
-        npm run build-electron
+        npm i
+        npm run build-electron-store
         npm x -- electron-builder -l dir -c electronBuilderConfigs/snap.json
         electronPackagePath=$(ls -d ./dist/linux*unpacked)
         cp snap/local/io.github.myhpwa.spin-the-wheel.desktop ${electronPackagePath}
