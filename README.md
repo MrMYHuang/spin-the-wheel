@@ -95,6 +95,9 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4 以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.0.1:
+  * [修正] 分享 app 連結未複製到剪貼簿的問題。
+
 * Snap 2.0.0:
   * [新增] 更新 app 圖示。
 

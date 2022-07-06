@@ -89,12 +89,14 @@ class _WheelPage extends React.Component<PageProps, State> {
 
             <IonButton fill="clear" slot='end' onClick={e => {
               const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `s=${encodeURIComponent(v.title)}`).join('&')}`;
+              const url = `${window.location.origin}${window.location.pathname}?${thisDecision}`;
+              Globals.copyToClipboard(url);
               this.props.dispatch({
                 type: "TMP_SET_KEY_VAL",
                 key: 'shareTextModal',
                 val: {
                   show: true,
-                  text: `${window.location.origin}${window.location.pathname}?${thisDecision}`,
+                  text: url,
                 },
               });
             }}>
