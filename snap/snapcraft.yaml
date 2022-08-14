@@ -1,5 +1,5 @@
 name: spin-the-wheel
-base: core20
+base: core18
 confinement: strict
 grade: stable
 adopt-info: spin-the-wheel
@@ -8,7 +8,7 @@ apps:
   spin-the-wheel:
     command: spin-the-wheel/spin-the-wheel --no-sandbox
     desktop: spin-the-wheel/io.github.myhpwa.spin-the-wheel.desktop
-    extensions: [gnome-3-38]
+    extensions: [gnome-3-34]
     plugs:
     - desktop
     - desktop-legacy
