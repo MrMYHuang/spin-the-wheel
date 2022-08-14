@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 import { app, BrowserWindow, dialog, ipcMain, Menu, MenuItem, shell } from 'electron';
+import i18n from './i18n';
 const windowStateKeeper = require('electron-window-state');
 const path = require('path');
 const PackageInfos = require('../package.json');
@@ -16,94 +17,101 @@ function isDevMode() {
   return !app.isPackaged || (process as any).defaultApp;
 }
 
-const template = [
-  new MenuItem({
-    label: '檔案',
-    submenu: [
-      {
-        role: 'quit',
-        label: '關閉',
-      },
-    ]
-  }),
-  new MenuItem({
-    label: '編輯',
-    submenu: [
-      {
-        role: 'undo',
-        label: '還原',
-      },
-      {
-        role: 'redo',
-        label: '重作',
-      },
-      {
-        role: 'selectAll',
-        label: '全選',
-      },
-      {
-        role: 'cut',
-        label: '剪下',
-      },
-      {
-        role: 'copy',
-        label: '複製',
-      },
-      {
-        role: 'paste',
-        label: '貼上',
-      },
-    ]
-  }),
-  new MenuItem({
-    label: '執行',
-    submenu: [
-      {
-        role: 'forceReload',
-        label: '強制重新載入',
-      },
-      {
-        role: 'toggleDevTools',
-        label: '開發者工具',
-        visible: false,
-      },
-    ].filter(v => v != null) as any
-  }),
-  new MenuItem({
-    label: '視窗',
-    submenu: [
-      {
-        role: 'togglefullscreen',
-        label: '全螢幕',
-      },
-      {
-        label: '離開全螢幕',
-        accelerator: 'Esc',
-        visible: false,
-        click: (item: MenuItem, win: (BrowserWindow) | (undefined)) => {
-          win?.setFullScreen(false);
-        },
-      },
-      {
-        label: '最小化',
-        role: 'minimize'
-      },
-      process.platform === 'darwin' ?
+function getMenuTemplate() {
+  const template = [
+    new MenuItem({
+      label: i18n.t('File'),
+      submenu: [
         {
-          label: '新視窗',
-          click: () => {
-            createWindow();
-          }
-        } : null,
-      {
-        label: '關閉視窗',
-        role: 'close'
-      }
-    ].filter(v => v != null) as any
-  }),
-];
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+          role: 'quit',
+          label: i18n.t('Quit'),
+        },
+      ]
+    }),
+    new MenuItem({
+      label: i18n.t('Edit'),
+      submenu: [
+        {
+          role: 'undo',
+          label: i18n.t('Undo'),
+        },
+        {
+          role: 'redo',
+          label: i18n.t('Redo'),
+        },
+        {
+          role: 'selectAll',
+          label: i18n.t('Select All'),
+        },
+        {
+          role: 'cut',
+          label: i18n.t('Cut'),
+        },
+        {
+          role: 'copy',
+          label: i18n.t('Copy'),
+        },
+        {
+          role: 'paste',
+          label: i18n.t('Paste'),
+        },
+      ]
+    }),
+    new MenuItem({
+      label: i18n.t('Run'),
+      submenu: [
+        {
+          role: 'forceReload',
+          label: i18n.t('Reload'),
+        },
+        {
+          role: 'toggleDevTools',
+          label: i18n.t('Dev Tools'),
+          visible: false,
+        },
+      ].filter(v => v != null) as any
+    }),
+    new MenuItem({
+      label: i18n.t('Window'),
+      submenu: [
+        {
+          role: 'togglefullscreen',
+          label: i18n.t('Full Screen'),
+        },
+        {
+          label: i18n.t('Exit Full Screen'),
+          accelerator: 'Esc',
+          visible: false,
+          click: (item: MenuItem, win: (BrowserWindow) | (undefined)) => {
+            win?.setFullScreen(false);
+          },
+        },
+        {
+          label: i18n.t('Minimize'),
+          role: 'minimize'
+        },
+        process.platform === 'darwin' ?
+          {
+            label: i18n.t('New'),
+            click: () => {
+              createWindow();
+            }
+          } : null,
+        {
+          label: i18n.t('Close'),
+          role: 'close'
+        }
+      ].filter(v => v != null) as any
+    }),
+  ];
+  return template;
+}
+
+i18n.on('languageChanged', (lang: string) => {
+  mainWindow?.setTitle(i18n.t('productName'));
+  const menu = Menu.buildFromTemplate(getMenuTemplate());
+  Menu.setApplicationMenu(menu);
+});
 
 async function createWindow() {
 
@@ -128,11 +136,24 @@ async function createWindow() {
   // Open the DevTools.
   //mainWindow.webContents.openDevTools()
 
+  mainWindow.on('close', () => {
+    ipcMain.removeAllListeners();
+    ipcMain.removeHandler('toMainV3');
+  });
+
   ipcMain.on('toMain', (ev, args) => {
     switch (args.event) {
       case 'ready':
         mainWindow?.webContents.send('fromMain', { event: 'version', version: PackageInfos.version });
         break;
+    }
+  });
+
+  ipcMain.handle('toMainV3', async (ev, args) => {
+    switch (args.event) {
+      case 'changeLanguage':
+        i18n.changeLanguage(args.lang);
+        return { event: args.event, data: {} };
     }
   });
 
@@ -171,8 +192,8 @@ async function createWindow() {
       clearListeners();
       console.error(error);
       const buttonId = dialog.showMessageBoxSync(mainWindow!, {
-        message: `網路連線異常，請重試！\n${error}`,
-        buttons: ['重試', '取消'],
+        message: `${i18n.t('networkErrorMsg')}\n${error}`,
+        buttons: [i18n.t('Retry'), i18n.t('Cancel')],
       })
 
       if (buttonId === 1) {

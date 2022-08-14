@@ -2,6 +2,10 @@ import Globals from '../../Globals';
 import { Settings } from '../../models/Settings';
 import i18n from '../../i18n';
 
+i18n.on('languageChanged', (lang: string) => {
+  Globals.electronBackendApi?.invoke('toMainV3', { event: 'changeLanguage', lang });
+});
+
 function updateUi(newSettings: Settings) {
   while (document.body.classList.length > 0) {
     document.body.classList.remove(document.body.classList.item(0)!);

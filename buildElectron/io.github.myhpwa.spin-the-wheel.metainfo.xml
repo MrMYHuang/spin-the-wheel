@@ -22,6 +22,13 @@
   </screenshots>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.1.0" date="2022-08-14">
+      <description>
+        <ul>
+          <li>[EN] Electron app supports English / Chinese switching. [中文] Electron app 支援中文/英文切換。</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.0.0" date="2022-05-22">
       <description>
         <ul>

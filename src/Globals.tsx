@@ -9,7 +9,12 @@ async function clearAppData() {
   localStorage.clear();
 }
 
-//const electronBackendApi: any = (window as any).electronBackendApi;
+const electronBackendApi: {
+  send: (channel: string, data: any) => {},
+  receive: (channel: string, func: Function) => {},
+  receiveOnce: (channel: string, func: Function) => {},
+  invoke: (channel: string, data: any) => Promise<any>,
+} = (window as any).electronBackendApi;
 
 const consoleLog = console.log.bind(console);
 const consoleError = console.error.bind(console);
@@ -94,6 +99,7 @@ const Globals = {
     return isPlatform('pwa') || isPlatform('electron');
   },
   clearAppData,
+  electronBackendApi,
   copyToClipboard,
 };
 

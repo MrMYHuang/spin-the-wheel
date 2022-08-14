@@ -44,8 +44,6 @@ import { Settings } from './models/Settings';
 import { TmpSettings } from './models/TmpSettings';
 import WheelPage from './pages/WheelPage';
 
-const electronBackendApi: any = (window as any).electronBackendApi;
-
 let store = getSavedStore();
 /*
 class DebugRouter extends IonReactRouter {
@@ -117,7 +115,7 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
       Globals.disableAppLog();
     }
 
-    electronBackendApi?.receive("fromMain", (data: any) => {
+    Globals.electronBackendApi?.receive("fromMain", (data: any) => {
       switch (data.event) {
         case 'version':
           this.props.dispatch({
@@ -128,7 +126,7 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
           break;
       }
     });
-    electronBackendApi?.send("toMain", { event: 'ready' });
+    Globals.electronBackendApi?.send("toMain", { event: 'ready' });
 
     this.registrationNew = null;
 
