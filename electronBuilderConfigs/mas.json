@@ -1,5 +1,12 @@
 {
     "extends": "electronBuilderConfigs/common.json",
+    "extraResources": [
+      {
+        "from": "./iOS/iOS",
+        "to": ".",
+        "filter": ["**/*", "!**/Base.lproj/*"]
+      }
+    ],
     "mac": {
         "type": "distribution",
         "identity": null

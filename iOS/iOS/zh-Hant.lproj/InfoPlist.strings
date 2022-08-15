@@ -6,3 +6,4 @@
   
 */
 CFBundleDisplayName = "幸運輪盤";
+CFBundleName = "幸運輪盤";

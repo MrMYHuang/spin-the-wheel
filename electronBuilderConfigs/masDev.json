@@ -1,6 +1,13 @@
 {
   "extends": "electronBuilderConfigs/common.json",
   "icon": "buildElectron/icon.icns",
+  "extraResources": [
+    {
+      "from": "./iOS/iOS",
+      "to": ".",
+      "filter": ["**/*", "!**/Base.lproj/*"]
+    }
+  ],
   "mac": {
     "type": "development",
     "identity": null

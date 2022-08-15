@@ -6,3 +6,4 @@
   
 */
 CFBundleDisplayName = "Spin The Wheel";
+CFBundleName = "Spin The Wheel";

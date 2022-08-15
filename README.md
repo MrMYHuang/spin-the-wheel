@@ -95,6 +95,9 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4 以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.1.1:
+  * [新增] MAS app 支援英文/中文本地化第一選單名稱。
+
 * PWA 2.1.0:
   * [新增] Electron app 支援英文/中文切換。
 
