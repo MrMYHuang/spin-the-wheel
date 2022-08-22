@@ -261,7 +261,7 @@ __pycache__/
 *.pyc
 
 build
-pwa
+spin-the-wheel-pwa
 buildElectron/*.js
 buildElectron/*.map
 *.xcbkptlist
