@@ -151,6 +151,10 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
               this.props.finish(this.state.newDecision);
             }}>{this.props.t('Save')}</IonButton>
+
+            <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
+              this.props.finish();
+            }}>{this.props.t('Close')}</IonButton>
           </div>
 
           <IonToast

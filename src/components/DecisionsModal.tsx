@@ -163,6 +163,10 @@ class _DecisionsModal extends React.Component<PageProps, State> {
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
               this.setState({ showAddDecisionAlert: true });
             }}>{this.props.t('Add')}</IonButton>
+
+            <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
+              this.props.finish();
+            }}>{this.props.t('Close')}</IonButton>
           </div>
 
           <SelectionItemsModal

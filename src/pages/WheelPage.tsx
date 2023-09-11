@@ -14,7 +14,7 @@ import Wheel from '../components/Wheel';
 import { Decision } from '../models/Decision';
 import { SelectionItem } from '../models/SelectionItem';
 import Globals from '../Globals';
-import SettingsModal from './SettingsModal';
+import SettingsModal from '../components/SettingsModal';
 
 interface Props extends WithTranslation {
   dispatch: Function;
@@ -157,7 +157,7 @@ class _WheelPage extends React.Component<PageProps, State> {
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.setState({ showDecisonsModal: true });
               }}>{this.props.t('Select')}</IonButton>
-              
+
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.spin!();
               }}>{this.props.t('Spin')}</IonButton>

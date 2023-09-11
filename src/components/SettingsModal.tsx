@@ -283,17 +283,22 @@ class _SettingsModal extends React.Component<PageProps, StateProps> {
                 <div><a href="mailto:myh@live.com" target="_new">myh@live.com</a></div>
               </div>
             </IonItem>
-          </IonList>
+            <IonItem>
+              <IonButton slot='end' fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
+                this.props.onDidDismiss();
+              }}>{this.props.t('Close')}</IonButton>
+          </IonItem>
+        </IonList>
 
-          <IonToast
-            cssClass='uiFont'
-            isOpen={this.state.showToast}
-            onDidDismiss={() => this.setState({ showToast: false })}
-            message={this.state.toastMessage}
-            duration={2000}
-          />
-        </IonContent>
-      </IonModal>
+        <IonToast
+          cssClass='uiFont'
+          isOpen={this.state.showToast}
+          onDidDismiss={() => this.setState({ showToast: false })}
+          message={this.state.toastMessage}
+          duration={2000}
+        />
+      </IonContent>
+      </IonModal >
     );
   }
 };
