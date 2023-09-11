@@ -95,6 +95,9 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4 以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.2.2:
+  * [修正] 設定鈕位置。
+
 * PWA 2.2.1:
   * [修正] 部分使用者介面缺乏關閉鈕。
 

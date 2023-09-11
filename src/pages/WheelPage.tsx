@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon, IonFab, IonFabButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon } from '@ionic/react';
 import queryString from 'query-string';
 import { settings, shareSocial } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router-dom';
@@ -91,6 +91,12 @@ class _WheelPage extends React.Component<PageProps, State> {
             <IonTitle className='uiFont'>{this.props.t('wheelPageTitle')}</IonTitle>
 
             <IonButton fill="clear" slot='end' onClick={e => {
+                this.setState({ showSettingsModal: true });
+            }}>
+              <IonIcon icon={settings} slot='icon-only' />
+            </IonButton>
+
+            <IonButton fill="clear" slot='end' onClick={e => {
               const thisDecision = `title=${encodeURIComponent(this.decision!.title)}&${this.decision!.selections.map(v => `s=${encodeURIComponent(v.title)}`).join('&')}`;
               const url = `${window.location.origin}${window.location.pathname}?${thisDecision}`;
               Globals.copyToClipboard(url);
@@ -108,15 +114,6 @@ class _WheelPage extends React.Component<PageProps, State> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          <IonFab vertical='top' horizontal='end' slot='fixed'>
-            <IonFabButton
-              onClick={e => {
-                this.setState({ showSettingsModal: true });
-              }}
-            >
-              <IonIcon icon={settings} />
-            </IonFabButton>
-          </IonFab>
 
           <div className='contentCenter'>
             <div style={{ flex: '0 0 auto', fontSize: this.decision?.fontSize || 24 }}>
@@ -168,7 +165,7 @@ class _WheelPage extends React.Component<PageProps, State> {
           <SettingsModal
             showModal={this.state.showSettingsModal}
             onDidDismiss={
-              () => this.setState({showSettingsModal: false})
+              () => this.setState({ showSettingsModal: false })
             }
           >
 
