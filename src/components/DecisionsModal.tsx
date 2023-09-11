@@ -1,9 +1,9 @@
 import React from 'react';
-import { IonContent, IonList, IonReorderGroup, IonReorder, IonItem, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonFab, IonFabButton, IonAlert, IonModal, IonButton, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonList, IonReorderGroup, IonReorder, IonItem, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonAlert, IonModal, IonButton, IonHeader, IonTitle, IonToolbar } from '@ionic/react';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { add, build, swapVertical } from 'ionicons/icons';
+import { build, swapVertical } from 'ionicons/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
@@ -69,7 +69,7 @@ class _DecisionsModal extends React.Component<PageProps, State> {
       rows.push(
         <IonItemSliding key={`decisionItemSliding_` + i}>
           <IonItem key={`decisionItem_` + i}>
-            <IonButton fill='clear' key={`decisionSubItem_` + i} size='large' className='ion-text-wrap uiFont' style={{flex: '1 1 auto'}}
+            <IonButton fill='clear' key={`decisionSubItem_` + i} size='large' className='ion-text-wrap uiFont' style={{ flex: '1 1 auto' }}
               onClick={e => {
                 this.props.dispatch({
                   type: "SET_KEY_VAL",
@@ -104,8 +104,8 @@ class _DecisionsModal extends React.Component<PageProps, State> {
   render() {
     return (
       <IonModal
-        swipeToClose={false}
-        backdropDismiss={false}
+        backdropDismiss={true}
+        onDidDismiss={() => this.props.finish()}
         isOpen={this.props.showModal}
       //presentingElement={router || undefined}
       >
@@ -125,16 +125,6 @@ class _DecisionsModal extends React.Component<PageProps, State> {
               {this.getDecisionRows()}
             </IonReorderGroup>
           </IonList>
-
-          <IonFab vertical='bottom' horizontal='end' slot='fixed'>
-            <IonFabButton
-              onClick={e => {
-                this.setState({ showAddDecisionAlert: true });
-              }}
-            >
-              <IonIcon icon={add} />
-            </IonFabButton>
-          </IonFab>
 
           <IonAlert
             cssClass='uiFont'
@@ -169,10 +159,10 @@ class _DecisionsModal extends React.Component<PageProps, State> {
             ]}
           />
 
-          <div>
+          <div className='buttonsRow'>
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
-              this.props.finish();
-            }}>{this.props.t('Close')}</IonButton>
+              this.setState({ showAddDecisionAlert: true });
+            }}>{this.props.t('Add')}</IonButton>
           </div>
 
           <SelectionItemsModal

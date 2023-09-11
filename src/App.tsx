@@ -3,11 +3,7 @@ import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router-d
 import {
   setupIonicReact,
   IonApp,
-  IonIcon,
   IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   IonAlert,
   IonToast,
 } from '@ionic/react';
@@ -17,7 +13,6 @@ import queryString from 'query-string';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import getSavedStore from './redux/store';
-import { settings, pieChart } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -37,7 +32,6 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import SettingsPage from './pages/SettingsPage';
 import Globals from './Globals';
 import ShareTextModal from './components/ShareTextModal';
 import { Settings } from './models/Settings';
@@ -246,22 +240,11 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
     return (
       <IonApp>
         <IonReactRouter>
-          <IonTabs>
-            <IonRouterOutlet animated={false}>
-              {/* The following route is for backward compatibility. */}
-              <Route path={`${Globals.pwaUrl}/wheel`} render={(props: any) => <WheelPage {...props} />} exact={true} />
-              <Route path={`${Globals.pwaUrl}/settings`} render={(props: any) => <SettingsPage {...props} />} />
-              <Route path={`${Globals.pwaUrl}/`} render={() => { return this.routeByQueryString(); }} exact={true} />
-            </IonRouterOutlet>
-            <IonTabBar slot="bottom">
-              <IonTabButton tab="wheel" href={`${Globals.pwaUrl}/wheel`}>
-                <IonIcon icon={pieChart} />
-              </IonTabButton>
-              <IonTabButton tab="settings" href={`${Globals.pwaUrl}/settings`}>
-                <IonIcon icon={settings} />
-              </IonTabButton>
-            </IonTabBar>
-          </IonTabs>
+          <IonRouterOutlet animated={false}>
+            {/* The following route is for backward compatibility. */}
+            <Route path={`${Globals.pwaUrl}/wheel`} render={(props: any) => <WheelPage {...props} />} exact={true} />
+            <Route path={`${Globals.pwaUrl}/`} render={() => { return this.routeByQueryString(); }} exact={true} />
+          </IonRouterOutlet>
         </IonReactRouter>
 
         <IonAlert

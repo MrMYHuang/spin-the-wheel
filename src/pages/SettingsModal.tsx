@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonIcon, IonLabel, IonToggle, IonButton, IonAlert, IonSelect, IonSelectOption, IonToast, withIonLifeCycle } from '@ionic/react';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonIcon, IonLabel, IonToggle, IonButton, IonAlert, IonSelect, IonSelectOption, IonToast, withIonLifeCycle, IonModal } from '@ionic/react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { withTranslation, WithTranslation } from 'react-i18next';
 
 import Globals from '../Globals';
 import { helpCircle, text, colorPalette, bug, download, language } from 'ionicons/icons';
-import './SettingsPage.css';
+import './SettingsModal.css';
 import PackageInfos from '../../package.json';
 
 interface StateProps {
@@ -26,6 +26,8 @@ interface Props extends WithTranslation {
   voiceURI: string;
   speechRate: number;
   mainVersion: string | null;
+  showModal: boolean;
+  onDidDismiss: Function;
 }
 
 interface PageProps extends Props, RouteComponentProps<{
@@ -34,7 +36,7 @@ interface PageProps extends Props, RouteComponentProps<{
   label: string;
 }> { }
 
-class _SettingsPage extends React.Component<PageProps, StateProps> {
+class _SettingsModal extends React.Component<PageProps, StateProps> {
   constructor(props: any) {
     super(props);
 
@@ -52,7 +54,11 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
   reportText = '';
   render() {
     return (
-      <IonPage>
+      <IonModal
+        backdropDismiss={true}
+        onDidDismiss={() => this.props.onDidDismiss()}
+        isOpen={this.props.showModal}
+      >
         <IonHeader>
           <IonToolbar>
             <IonTitle className='uiFont'>{this.props.t('Settings')}</IonTitle>
@@ -287,7 +293,7 @@ class _SettingsPage extends React.Component<PageProps, StateProps> {
             duration={2000}
           />
         </IonContent>
-      </IonPage >
+      </IonModal>
     );
   }
 };
@@ -305,8 +311,8 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
   }
 };
 
-const SettingsPage = withIonLifeCycle(_SettingsPage);
+const SettingsModal = withIonLifeCycle(_SettingsModal);
 
 export default withTranslation()(connect(
   mapStateToProps,
-)(SettingsPage));
+)(SettingsModal));

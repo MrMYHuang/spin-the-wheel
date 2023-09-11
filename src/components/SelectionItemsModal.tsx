@@ -1,9 +1,9 @@
 import React from 'react';
-import { IonContent, IonList, IonReorderGroup, IonReorder, IonItem, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonToast, IonFab, IonFabButton, IonModal, IonButton, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
+import { IonContent, IonList, IonReorderGroup, IonReorder, IonItem, IonItemSliding, IonItemOptions, IonItemOption, IonIcon, IonToast, IonModal, IonButton, IonHeader, IonTitle, IonToolbar, IonInput } from '@ionic/react';
 import { ItemReorderEventDetail } from '@ionic/core';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { add, swapVertical } from 'ionicons/icons';
+import { swapVertical } from 'ionicons/icons';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import { Decision } from '../models/Decision';
@@ -103,8 +103,8 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
 
     return (
       <IonModal
-        swipeToClose={false}
-        backdropDismiss={false}
+        backdropDismiss={true}
+        onDidDismiss={() => this.props.finish()}
         isOpen={this.props.showModal}
         /*
         onWillPresent={() =>
@@ -123,7 +123,6 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
           </IonToolbar>
         </IonHeader>
         <IonContent className='contentCenter'>
-
           <IonInput
             value={this.state.newDecision.title}
             placeholder={this.props.t('wheelTitle')}
@@ -142,26 +141,16 @@ class _SelectionItemsModal extends React.Component<PageProps, State> {
             </IonReorderGroup>
           </IonList>
 
-          <IonFab vertical='bottom' horizontal='end' slot='fixed'>
-            <IonFabButton
-              onClick={e => {
+          <div className='buttonsRow'>
+            <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 let newDecision = this.state.newDecision;
                 newDecision.selections.push({ title: '' } as SelectionItem);
                 this.setState({ newDecision });
-              }}
-            >
-              <IonIcon icon={add} />
-            </IonFabButton>
-          </IonFab>
+            }}>{this.props.t('Add')}</IonButton>
 
-          <div className='buttonsRow'>
             <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
               this.props.finish(this.state.newDecision);
             }}>{this.props.t('Save')}</IonButton>
-
-            <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
-              this.props.finish();
-            }}>{this.props.t('Cancel')}</IonButton>
           </div>
 
           <IonToast

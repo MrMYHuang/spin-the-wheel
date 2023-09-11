@@ -1,7 +1,7 @@
 import React from 'react';
-import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon, IonFab, IonFabButton } from '@ionic/react';
 import queryString from 'query-string';
-import { shareSocial } from 'ionicons/icons';
+import { settings, shareSocial } from 'ionicons/icons';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,6 +14,7 @@ import Wheel from '../components/Wheel';
 import { Decision } from '../models/Decision';
 import { SelectionItem } from '../models/SelectionItem';
 import Globals from '../Globals';
+import SettingsModal from './SettingsModal';
 
 interface Props extends WithTranslation {
   dispatch: Function;
@@ -28,6 +29,7 @@ interface PageProps extends Props, RouteComponentProps<{
 
 interface State {
   selectedItem: string;
+  showSettingsModal: boolean;
   showDecisonsModal: boolean;
   showToast: boolean;
   toastMessage: string;
@@ -39,6 +41,7 @@ class _WheelPage extends React.Component<PageProps, State> {
     super(props);
     this.state = {
       selectedItem: '',
+      showSettingsModal: false,
       showDecisonsModal: false,
       showToast: false,
       toastMessage: '',
@@ -61,9 +64,9 @@ class _WheelPage extends React.Component<PageProps, State> {
       const newDecisionIndex = this.props.settings.decisions.length;
       this.props.dispatch({
         type: "ADD_DECISION",
-        decision: new Decision(uuidv4(), title, selections.map(v => { 
-          return {title: v} as SelectionItem
-          })),
+        decision: new Decision(uuidv4(), title, selections.map(v => {
+          return { title: v } as SelectionItem
+        })),
       });
 
       this.props.dispatch({
@@ -105,10 +108,20 @@ class _WheelPage extends React.Component<PageProps, State> {
           </IonToolbar>
         </IonHeader>
         <IonContent>
+          <IonFab vertical='top' horizontal='end' slot='fixed'>
+            <IonFabButton
+              onClick={e => {
+                this.setState({ showSettingsModal: true });
+              }}
+            >
+              <IonIcon icon={settings} />
+            </IonFabButton>
+          </IonFab>
+
           <div className='contentCenter'>
             <div style={{ flex: '0 0 auto', fontSize: this.decision?.fontSize || 24 }}>
               {this.decision?.title || <span>&nbsp;</span>}
-              <span style={{ color: 'green' }}>{` ` +this.state.selectedItem}</span>
+              <span style={{ color: 'green' }}>{` ` + this.state.selectedItem}</span>
             </div>
 
             <Wheel updateSelectedItem={(result: any) => {
@@ -127,7 +140,7 @@ class _WheelPage extends React.Component<PageProps, State> {
                     return;
                   }
                   let decisions = JSON.parse(JSON.stringify(this.props.settings.decisions)) as Decision[];
-                  let decision = {...this.decision};
+                  let decision = { ...this.decision };
 
                   decision.fontSize = +e.detail.value;
                   const i = decisions.findIndex(d => d.uuid === decision!.uuid);
@@ -144,12 +157,22 @@ class _WheelPage extends React.Component<PageProps, State> {
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.setState({ showDecisonsModal: true });
               }}>{this.props.t('Select')}</IonButton>
+              
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
                 this.spin!();
               }}>{this.props.t('Spin')}</IonButton>
             </div>
 
           </div>
+
+          <SettingsModal
+            showModal={this.state.showSettingsModal}
+            onDidDismiss={
+              () => this.setState({showSettingsModal: false})
+            }
+          >
+
+          </SettingsModal>
 
           <DecisionsModal
             {...{
