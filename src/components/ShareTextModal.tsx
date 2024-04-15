@@ -1,12 +1,12 @@
 import React from 'react';
-import { IonButton, IonContent, IonItem, IonLabel, IonList, IonModal, IonToggle } from '@ionic/react';
+import { IonButton, IonContent, IonItem, IonLabel, IonList, IonModal, IonToast, IonToggle } from '@ionic/react';
 import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Globals from '../Globals';
 import * as qrcode from 'qrcode';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-interface Props extends WithTranslation{
+interface Props extends WithTranslation {
   showModal: boolean;
   text: string;
   finish: Function;
@@ -20,6 +20,8 @@ interface PageProps extends Props, RouteComponentProps<{
 
 interface State {
   isAppSettingsExport: Array<boolean>;
+  showToast: boolean;
+  toastMessage: string;
 }
 
 class _ShareTextModal extends React.Component<PageProps, State> {
@@ -27,12 +29,14 @@ class _ShareTextModal extends React.Component<PageProps, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      isAppSettingsExport: Array<boolean>(Object.keys(Globals.appSettings).length)
+      isAppSettingsExport: Array<boolean>(Object.keys(Globals.appSettings).length),
+      showToast: false,
+      toastMessage: '',
     }
   }
 
   updateQrCode(isAppSettingsExport: boolean[]) {
-    const appSettingsExport = Object.keys(Globals.appSettings).filter((key, i) => isAppSettingsExport[i]).map((key, i) => {return {key: key, val: this.props.settings[key]};});
+    const appSettingsExport = Object.keys(Globals.appSettings).filter((key, i) => isAppSettingsExport[i]).map((key, i) => { return { key: key, val: this.props.settings[key] }; });
     let appSettingsString: string | null = appSettingsExport.map(keyVal => `${keyVal.key}=${+keyVal.val}`).join(',');
     appSettingsString = appSettingsString !== '' ? `settings=${appSettingsString}` : null;
     let appUrl = this.props.text;
@@ -40,11 +44,17 @@ class _ShareTextModal extends React.Component<PageProps, State> {
     if (appSettingsString) {
       appUrl += hasQueryString ? `&${appSettingsString}` : `?${appSettingsString}`;
     }
-    
+
     Globals.copyToClipboard(appUrl);
     const qrcCanvas = document.getElementById('qrcCanvas');
-    qrcode.toCanvas(qrcCanvas, appUrl);
-    return qrcCanvas;
+    const ctx = (qrcCanvas as HTMLCanvasElement).getContext('2d')!;
+
+    qrcode.toCanvas(qrcCanvas, appUrl).catch((error) => {
+      ctx.font = `${this.props.settings.uiFontSize}px sans`;
+      ctx.fillStyle = "#ff0000";
+      ctx.fillText(`資料過長，無法產生 QR code!`, 0, this.props.settings.uiFontSize);
+    });
+    return;
   }
 
   render() {
@@ -81,7 +91,7 @@ class _ShareTextModal extends React.Component<PageProps, State> {
                     <IonItem key={`appSettingExportItem_${i}`}>
                       <IonLabel className='ion-text-wrap uiFont'>{this.props.t(key)}</IonLabel>
                       <IonToggle slot='end' onIonChange={e => {
-                        const isAppSettingsExport =  this.state.isAppSettingsExport;
+                        const isAppSettingsExport = this.state.isAppSettingsExport;
                         isAppSettingsExport[i] = e.detail.checked;
                         this.updateQrCode(isAppSettingsExport);
                         this.setState({ isAppSettingsExport: isAppSettingsExport });
@@ -95,6 +105,14 @@ class _ShareTextModal extends React.Component<PageProps, State> {
               <IonButton fill='outline' shape='round' size='large' onClick={() => this.props.finish()}>{this.props.t('Close')}</IonButton>
             </div>
           </div>
+
+          <IonToast
+            cssClass='uiFont'
+            isOpen={this.state.showToast}
+            onDidDismiss={() => this.setState({ showToast: false })}
+            message={this.state.toastMessage}
+            duration={2000}
+          />
         </IonContent>
       </IonModal>
     );
