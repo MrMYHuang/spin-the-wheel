@@ -95,6 +95,9 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4 以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* PWA 2.2.4:
+  * [修正] 分享內容過長，產生 QR code 時會顯示錯誤。
+
 * PWA 2.2.3:
   * [修正] 錯字。
 
