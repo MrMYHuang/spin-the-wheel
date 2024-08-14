@@ -95,6 +95,10 @@ https://myhpwa.github.io/spin-the-wheel
 1. iOS Safari 13.4 以上才支援"分享此頁"功能。
 
 ## <a id='history'>版本歷史</a>
+* Snap 2.2.0:
+  * [優化] 升級至 Electron 31.3.1。
+  * [修正] Snap 版匯入／匯出存取權限問題.
+
 * PWA 2.2.4:
   * [修正] 分享內容過長，產生 QR code 時會顯示錯誤。
 

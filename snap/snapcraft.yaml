@@ -1,5 +1,5 @@
 name: spin-the-wheel
-base: core18
+base: core20
 confinement: strict
 grade: stable
 adopt-info: spin-the-wheel
@@ -8,7 +8,7 @@ apps:
   spin-the-wheel:
     command: spin-the-wheel/spin-the-wheel --no-sandbox
     desktop: spin-the-wheel/io.github.myhpwa.spin-the-wheel.desktop
-    extensions: [gnome-3-34]
+    extensions: [gnome-3-38]
     plugs:
     - desktop
     - desktop-legacy
@@ -16,6 +16,7 @@ apps:
     - browser-support
     - network
     - network-bind
+    - home
     environment:
       # Correct the TMPDIR path for Chromium Framework/Electron to ensure
       # libappindicator has readable resources.
@@ -30,7 +31,7 @@ parts:
         mkdir -p nvm
         wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | NVM_DIR=`pwd`/nvm bash
         . nvm/nvm.sh
-        nvm install 16
+        nvm install 20
         npm i
         npm run build-electron-store
         npm x -- electron-builder -l dir -c electronBuilderConfigs/snap.json

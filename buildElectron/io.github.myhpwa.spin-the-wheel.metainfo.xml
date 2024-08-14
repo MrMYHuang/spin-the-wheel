@@ -22,6 +22,13 @@
   </screenshots>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="2.2.0" date="2024-08-14">
+      <description>
+        <ul>
+          <li>[EN] Update Electron to v26. [中文] 更新 Electron 至 v26。</li>
+        </ul>
+      </description>
+    </release>
     <release version="2.1.0" date="2022-08-14">
       <description>
         <ul>
