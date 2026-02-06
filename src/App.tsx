@@ -71,7 +71,7 @@ interface Props extends WithTranslation {
   tmpSettings: TmpSettings;
 }
 
-interface PageProps extends RouteComponentProps<{
+interface PageProps extends Props, RouteComponentProps<{
   tab: string;
   path: string;
 }> { }
@@ -257,13 +257,15 @@ class _AppOrig extends React.Component<AppOrigProps, State> {
               name: 'radio0',
               type: 'radio',
               label: 'English',
-              value: 'en'
+              value: 'en',
+              checked: this.props.settings.language === 'en',
             },
             {
               name: 'radio1',
               type: 'radio',
               label: '中文',
-              value: 'zh'
+              value: 'zh',
+              checked: this.props.settings.language === 'zh',
             },
           ]}
           buttons={[

@@ -48,6 +48,7 @@
     "includAppSettings": "包括 app 設定",
     "shareByQr": "也可以使用 QR code 分享",
     "theme": "佈景主題",
+    "removeLastSelectedItemBeforeSpin": "每次轉動前移除上一個選中項目",
     "uiFontSize": "UI字型大小",
     "E.g.": "例",
     "wheelAdded": "輪盤已由網址新增！"

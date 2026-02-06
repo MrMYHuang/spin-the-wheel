@@ -2,7 +2,6 @@ import React from 'react';
 import { IonContent, IonHeader, IonPage, IonToolbar, withIonLifeCycle, IonToast, IonTitle, IonButton, IonRange, IonIcon } from '@ionic/react';
 import queryString from 'query-string';
 import { settings, shareSocial } from 'ionicons/icons';
-import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { withTranslation, WithTranslation } from 'react-i18next';
@@ -15,6 +14,7 @@ import { Decision } from '../models/Decision';
 import { SelectionItem } from '../models/SelectionItem';
 import Globals from '../Globals';
 import SettingsModal from '../components/SettingsModal';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface Props extends WithTranslation {
   dispatch: Function;
@@ -29,6 +29,7 @@ interface PageProps extends Props, RouteComponentProps<{
 
 interface State {
   selectedItem: string;
+  displayDecision: Decision | null;
   showSettingsModal: boolean;
   showDecisonsModal: boolean;
   showToast: boolean;
@@ -41,11 +42,19 @@ class _WheelPage extends React.Component<PageProps, State> {
     super(props);
     this.state = {
       selectedItem: '',
+      displayDecision: this.cloneDecision(this.decision),
       showSettingsModal: false,
       showDecisonsModal: false,
       showToast: false,
       toastMessage: '',
     }
+  }
+
+  cloneDecision(decision: Decision | undefined) {
+    if (!decision) {
+      return null;
+    }
+    return JSON.parse(JSON.stringify(decision)) as Decision;
   }
 
   get decision() {
@@ -54,6 +63,20 @@ class _WheelPage extends React.Component<PageProps, State> {
       return undefined;
     }
     return decisions[this.props.settings.selectedDecision];
+  }
+
+  get displayDecision() {
+    if (!this.props.settings.removeLastSelectedItemBeforeSpin) {
+      return this.decision;
+    }
+    return this.state.displayDecision || this.decision;
+  }
+
+  componentDidUpdate(prevProps: any) {
+    const prevDecision = prevProps.settings.decisions?.[prevProps.settings.selectedDecision];
+    if (this.decision !== prevDecision || this.props.settings.removeLastSelectedItemBeforeSpin !== prevProps.settings.removeLastSelectedItemBeforeSpin) {
+      this.setState({ displayDecision: this.cloneDecision(this.decision), selectedItem: '' });
+    }
   }
 
   ionViewWillEnter() {
@@ -84,6 +107,9 @@ class _WheelPage extends React.Component<PageProps, State> {
   renderWheel: Function | null | undefined;
 
   render() {
+    const shouldDisableSpin = this.props.settings.removeLastSelectedItemBeforeSpin
+      && (this.displayDecision?.selections.length || 0) <= 1;
+
     return (
       <IonPage>
         <IonHeader>
@@ -115,16 +141,16 @@ class _WheelPage extends React.Component<PageProps, State> {
         </IonHeader>
         <IonContent>
 
-          <div className='contentCenter'>
-            <div style={{ flex: '0 0 auto', fontSize: this.decision?.fontSize || 24 }}>
-              {this.decision?.title || <span>&nbsp;</span>}
+            <div className='contentCenter'>
+            <div style={{ flex: '0 0 auto', fontSize: this.displayDecision?.fontSize || 24 }}>
+              {this.displayDecision?.title || <span>&nbsp;</span>}
               <span style={{ color: 'green' }}>{` ` + this.state.selectedItem}</span>
             </div>
 
             <Wheel updateSelectedItem={(result: any) => {
               this.setState({ selectedItem: result });
             }}
-              decision={this.decision}
+              decision={this.displayDecision}
               setSpin={(spin: Function) => this.spin = spin}
               setRenderWheel={(renderWheel: Function) => this.renderWheel = renderWheel}
             />
@@ -132,7 +158,7 @@ class _WheelPage extends React.Component<PageProps, State> {
             <div style={{ display: 'flex', flexDirection: 'row', verticalAlign: 'middle', width: 'calc(100% - 40px)' }}>
               <span className='uiFont' style={{ marginTop: 'auto', marginBottom: 'auto' }}>{this.props.t('fontSize')}</span>
               <div style={{ marginTop: 'auto', marginBottom: 'auto', flex: '1 1 auto' }}>
-                <IonRange min={12} max={128} pin={true} snaps={true} value={this.decision?.fontSize || 24} onIonChange={async e => {
+                <IonRange min={12} max={128} pin={true} snaps={true} value={this.displayDecision?.fontSize || 24} onIonChange={async e => {
                   if (this.decision == null) {
                     return;
                   }
@@ -155,9 +181,38 @@ class _WheelPage extends React.Component<PageProps, State> {
                 this.setState({ showDecisonsModal: true });
               }}>{this.props.t('Select')}</IonButton>
 
+              {this.props.settings.removeLastSelectedItemBeforeSpin &&
+                <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
+                  this.setState({ displayDecision: this.cloneDecision(this.decision), selectedItem: '' });
+                }}>{this.props.t('Reset')}</IonButton>
+              }
+
               <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={e => {
+                if (shouldDisableSpin) {
+                  return;
+                }
+
+                const decision = this.displayDecision;
+                if (this.props.settings.removeLastSelectedItemBeforeSpin && decision && this.state.selectedItem) {
+                  const selectionIndex = decision.selections.findIndex(s => s.title === this.state.selectedItem);
+                  if (selectionIndex !== -1) {
+                    const nextDecision = this.cloneDecision(decision);
+                    if (!nextDecision) {
+                      return;
+                    }
+                    nextDecision.selections.splice(selectionIndex, 1);
+                    this.setState({ displayDecision: nextDecision, selectedItem: '' }, () => {
+                      if (nextDecision.selections.length === 0) {
+                        return;
+                      }
+                      this.spin!();
+                    });
+                    return;
+                  }
+                }
+
                 this.spin!();
-              }}>{this.props.t('Spin')}</IonButton>
+              }} disabled={shouldDisableSpin}>{this.props.t('Spin')}</IonButton>
             </div>
 
           </div>
@@ -206,6 +261,6 @@ const mapStateToProps = (state: any /*, ownProps*/) => {
 
 //const mapDispatchToProps = {};
 
-export default withTranslation()(connect(
+export default withTranslation()(withRouter(connect(
   mapStateToProps,
-)(WheelPage));
+)(WheelPage)));

@@ -48,6 +48,7 @@
     "includAppSettings": "Include app settings",
     "shareByQr": "Share by QR code",
     "theme": "Theme",
+    "removeLastSelectedItemBeforeSpin": "Remove last selected item before a spin",
     "uiFontSize": "UI font size",
     "E.g.": "E.g.",
     "wheelAdded": " wheel is added from link！"

@@ -1,12 +1,12 @@
 import React from 'react';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonRange, IonIcon, IonLabel, IonToggle, IonButton, IonAlert, IonSelect, IonSelectOption, IonToast, withIonLifeCycle, IonModal } from '@ionic/react';
-import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
 import Globals from '../Globals';
-import { helpCircle, text, colorPalette, bug, download, language } from 'ionicons/icons';
+import { helpCircle, text, colorPalette, bug, download, language, swapVertical } from 'ionicons/icons';
 import './SettingsModal.css';
 import PackageInfos from '../../package.json';
 
@@ -77,6 +77,137 @@ class _SettingsModal extends React.Component<PageProps, StateProps> {
                   val: true
                 });
               }}>{this.props.t('Select')}</IonButton>
+            </IonItem>
+            <IonItem>
+              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
+              <IonIcon icon={swapVertical} slot='start' />
+              <IonLabel className='ion-text-wrap uiFont'>{this.props.t('removeLastSelectedItemBeforeSpin')}</IonLabel>
+              <IonToggle slot='end' checked={this.props.settings.removeLastSelectedItemBeforeSpin} onIonChange={e => {
+                this.props.dispatch({
+                  type: "SET_KEY_VAL",
+                  key: 'removeLastSelectedItemBeforeSpin',
+                  val: e.detail.checked,
+                });
+              }} />
+            </IonItem>
+            <IonItem>
+              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
+              <IonIcon icon={colorPalette} slot='start' />
+              <IonLabel className='ion-text-wrap uiFont'>{this.props.t('theme')}</IonLabel>
+              <IonSelect slot='end'
+                value={+this.props.theme}
+                className='uiFont'
+                interface='popover'
+                interfaceOptions={{ cssClass: 'SpinTheWheelthemes' }}
+                onIonChange={e => {
+                  const value = +e.detail.value;
+                  // Important! Because it can results in rerendering of this component but
+                  // store states (this.props.theme) of this component is not updated yet! And IonSelect value will be changed
+                  // back to the old value and onIonChange will be triggered again!
+                  // Thus, we use this check to ignore this invalid change.
+                  if (+this.props.theme === value) {
+                    return;
+                  }
+
+                  this.props.dispatch({
+                    type: "SET_KEY_VAL",
+                    key: 'theme',
+                    val: value,
+                  });
+                }}>
+                <IonSelectOption className='uiFont green' value={0}>{this.props.t('themeGreen')}</IonSelectOption>
+                <IonSelectOption className='uiFont dark' value={1}>{this.props.t('themeDark')}</IonSelectOption>
+                <IonSelectOption className='uiFont light' value={2}>{this.props.t('themeLight')}</IonSelectOption>
+                <IonSelectOption className='uiFont oldPaper' value={3}>{this.props.t('themeOldPaper')}</IonSelectOption>
+                <IonSelectOption className='uiFont marble' value={4}>{this.props.t('themeMarble')}</IonSelectOption>
+              </IonSelect>
+            </IonItem>
+            <IonItem>
+              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
+              <IonIcon icon={text} slot='start' />
+              <div className="contentBlock">
+                <div style={{ flexDirection: "column" }}>
+                  <span className='ion-text-wrap uiFont'>{this.props.t('uiFontSize')}: {this.props.uiFontSize}</span>
+                  <IonRange min={12} max={48} pin={true} snaps={true} value={this.props.uiFontSize} onIonChange={e => {
+                    this.props.dispatch({
+                      type: "SET_KEY_VAL",
+                      key: 'uiFontSize',
+                      val: +e.detail.value,
+                    });
+                    setTimeout(() => {
+                      Globals.updateCssVars(this.props.settings);
+                    }, 0);
+                  }} />
+                </div>
+              </div>
+            </IonItem>
+            <IonItem>
+              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
+              <IonIcon icon={download} slot='start' />
+              <div className='contentBlock'>
+                <div style={{ flexDirection: 'column' }}>
+                  <IonLabel className='ion-text-wrap uiFont'>{this.props.t('appSettings')}</IonLabel>
+                  <div style={{ textAlign: 'right' }}>
+                    <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={async (e) => {
+                      const settingsJsonUri = `data:text/json;charset=utf-8,${encodeURIComponent(localStorage.getItem(Globals.storeFile) || '')}`;
+                      const a = document.createElement('a');
+                      a.href = settingsJsonUri;
+                      a.download = Globals.storeFile;
+                      a.click();
+                      a.remove();
+                    }}>{this.props.t('Export')}</IonButton>
+                    <input id='importJsonInput' type='file' accept='.json' style={{ display: 'none' }} onChange={async (ev) => {
+                      const file = ev.target.files?.item(0);
+                      const fileText = await file?.text() || '';
+                      try {
+                        // JSON text validation.
+                        JSON.parse(fileText);
+                        localStorage.setItem(Globals.storeFile, fileText);
+                        this.props.dispatch({ type: 'LOAD_SETTINGS' });
+                      } catch (e) {
+                        console.error(e);
+                        console.error(new Error().stack);
+                      }
+                      (document.getElementById('importJsonInput') as HTMLInputElement).value = '';
+                    }} />
+
+                    <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={(e) => {
+                      (document.querySelector('#importJsonInput') as HTMLInputElement).click();
+                    }}>{this.props.t('Import')}</IonButton>
+                    <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={(e) => {
+                      this.setState({ showClearAlert: true });
+                    }}>{this.props.t('Reset')}</IonButton>
+                    <IonAlert
+                      cssClass='uiFont'
+                      isOpen={this.state.showClearAlert}
+                      backdropDismiss={false}
+                      onDidPresent={(ev) => {
+                      }}
+                      header={this.props.t('resetMessage')}
+                      buttons={[
+                        {
+                          text: this.props.t('Cancel'),
+                          cssClass: 'primary uiFont',
+                          handler: (value) => {
+                            this.setState({
+                              showClearAlert: false,
+                            });
+                          },
+                        },
+                        {
+                          text: this.props.t('Reset'),
+                          cssClass: 'secondary uiFont',
+                          handler: async (value) => {
+                            await Globals.clearAppData();
+                            this.props.dispatch({ type: 'DEFAULT_SETTINGS' });
+                            this.setState({ showClearAlert: false, showToast: true, toastMessage: this.props.t('resetSuccess') });
+                          },
+                        }
+                      ]}
+                    />
+                  </div>
+                </div>
+              </div>
             </IonItem>
             <IonItem>
               <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
@@ -154,125 +285,6 @@ class _SettingsModal extends React.Component<PageProps, StateProps> {
                   },
                 ]}
               />
-            </IonItem>
-            <IonItem>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
-              <IonIcon icon={download} slot='start' />
-              <div className='contentBlock'>
-                <div style={{ flexDirection: 'column' }}>
-                  <IonLabel className='ion-text-wrap uiFont'>{this.props.t('appSettings')}</IonLabel>
-                  <div style={{ textAlign: 'right' }}>
-                    <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={async (e) => {
-                      const settingsJsonUri = `data:text/json;charset=utf-8,${encodeURIComponent(localStorage.getItem(Globals.storeFile) || '')}`;
-                      const a = document.createElement('a');
-                      a.href = settingsJsonUri;
-                      a.download = Globals.storeFile;
-                      a.click();
-                      a.remove();
-                    }}>{this.props.t('Export')}</IonButton>
-                    <input id='importJsonInput' type='file' accept='.json' style={{ display: 'none' }} onChange={async (ev) => {
-                      const file = ev.target.files?.item(0);
-                      const fileText = await file?.text() || '';
-                      try {
-                        // JSON text validation.
-                        JSON.parse(fileText);
-                        localStorage.setItem(Globals.storeFile, fileText);
-                        this.props.dispatch({ type: 'LOAD_SETTINGS' });
-                      } catch (e) {
-                        console.error(e);
-                        console.error(new Error().stack);
-                      }
-                      (document.getElementById('importJsonInput') as HTMLInputElement).value = '';
-                    }} />
-
-                    <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={(e) => {
-                      (document.querySelector('#importJsonInput') as HTMLInputElement).click();
-                    }}>{this.props.t('Import')}</IonButton>
-                    <IonButton fill='outline' shape='round' size='large' className='uiFont' onClick={(e) => {
-                      this.setState({ showClearAlert: true });
-                    }}>{this.props.t('Reset')}</IonButton>
-                    <IonAlert
-                      cssClass='uiFont'
-                      isOpen={this.state.showClearAlert}
-                      backdropDismiss={false}
-                      onDidPresent={(ev) => {
-                      }}
-                      header={this.props.t('resetMessage')}
-                      buttons={[
-                        {
-                          text: this.props.t('Cancel'),
-                          cssClass: 'primary uiFont',
-                          handler: (value) => {
-                            this.setState({
-                              showClearAlert: false,
-                            });
-                          },
-                        },
-                        {
-                          text: this.props.t('Reset'),
-                          cssClass: 'secondary uiFont',
-                          handler: async (value) => {
-                            await Globals.clearAppData();
-                            this.props.dispatch({ type: 'DEFAULT_SETTINGS' });
-                            this.setState({ showClearAlert: false, showToast: true, toastMessage: this.props.t('resetSuccess') });
-                          },
-                        }
-                      ]}
-                    />
-                  </div>
-                </div>
-              </div>
-            </IonItem>
-            <IonItem>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
-              <IonIcon icon={colorPalette} slot='start' />
-              <IonLabel className='ion-text-wrap uiFont'>{this.props.t('theme')}</IonLabel>
-              <IonSelect slot='end'
-                value={+this.props.theme}
-                className='uiFont'
-                interface='popover'
-                interfaceOptions={{ cssClass: 'SpinTheWheelthemes' }}
-                onIonChange={e => {
-                  const value = +e.detail.value;
-                  // Important! Because it can results in rerendering of this component but
-                  // store states (this.props.theme) of this component is not updated yet! And IonSelect value will be changed
-                  // back to the old value and onIonChange will be triggered again!
-                  // Thus, we use this check to ignore this invalid change.
-                  if (+this.props.theme === value) {
-                    return;
-                  }
-
-                  this.props.dispatch({
-                    type: "SET_KEY_VAL",
-                    key: 'theme',
-                    val: value,
-                  });
-                }}>
-                <IonSelectOption className='uiFont green' value={0}>{this.props.t('themeGreen')}</IonSelectOption>
-                <IonSelectOption className='uiFont dark' value={1}>{this.props.t('themeDark')}</IonSelectOption>
-                <IonSelectOption className='uiFont light' value={2}>{this.props.t('themeLight')}</IonSelectOption>
-                <IonSelectOption className='uiFont oldPaper' value={3}>{this.props.t('themeOldPaper')}</IonSelectOption>
-                <IonSelectOption className='uiFont marble' value={4}>{this.props.t('themeMarble')}</IonSelectOption>
-              </IonSelect>
-            </IonItem>
-            <IonItem>
-              <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}
-              <IonIcon icon={text} slot='start' />
-              <div className="contentBlock">
-                <div style={{ flexDirection: "column" }}>
-                  <span className='ion-text-wrap uiFont'>{this.props.t('uiFontSize')}: {this.props.uiFontSize}</span>
-                  <IonRange min={12} max={48} pin={true} snaps={true} value={this.props.uiFontSize} onIonChange={e => {
-                    this.props.dispatch({
-                      type: "SET_KEY_VAL",
-                      key: 'uiFontSize',
-                      val: +e.detail.value,
-                    });
-                    setTimeout(() => {
-                      Globals.updateCssVars(this.props.settings);
-                    }, 0);
-                  }} />
-                </div>
-              </div>
             </IonItem>
             <IonItem>
               <div tabIndex={0}></div>{/* Workaround for macOS Safari 14 bug. */}

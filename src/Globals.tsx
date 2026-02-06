@@ -1,6 +1,6 @@
 import { isPlatform, IonLabel } from '@ionic/react';
 
-const pwaUrl = process.env.PUBLIC_URL || '';
+const pwaUrl = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
 const bugReportApiUrl = 'https://vh6ud1o56g.execute-api.ap-northeast-1.amazonaws.com/bugReportMailer';
 
 let log = '';
@@ -68,13 +68,14 @@ const Globals = {
   appSettings: {
     'theme': 'theme',
     'uiFontSize': 'uiFontSize',
+    'removeLastSelectedItemBeforeSpin': 'removeLastSelectedItemBeforeSpin',
   } as Record<string, string>,
   fetchErrorContent: (
     <div className='contentCenter'>
       <IonLabel>
         <div>
           <div>連線失敗!</div>
-          <div style={{ fontSize: 'var(--ui-font-size)', paddingTop: 24 }}>如果問題持續發生，請執行<a href={`/${pwaUrl}/settings`} target="_self">設定頁</a>的 app 異常回報功能。</div>
+          <div style={{ fontSize: 'var(--ui-font-size)', paddingTop: 24 }}>如果問題持續發生，請執行<a href={`${pwaUrl}/settings`} target="_self">設定頁</a>的 app 異常回報功能。</div>
         </div>
       </IonLabel>
     </div>

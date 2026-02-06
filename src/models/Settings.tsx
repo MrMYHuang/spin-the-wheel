@@ -9,6 +9,7 @@ export class Settings {
     hasAppLog: boolean = true;
     theme: number = 2;
     uiFontSize: number = 24;
+    removeLastSelectedItemBeforeSpin: boolean = false;
     selectedDecision = 0;
     decisions: Decision[] = [
         new Decision(
